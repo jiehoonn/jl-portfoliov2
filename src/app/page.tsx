@@ -4,11 +4,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ReactLenis } from 'lenis/react'
 import type { LenisRef } from 'lenis/react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import TextPressure from '@/components/ui/TextPressure'
 import ShinyText from '@/components/ui/ShinyText'
 import LoadingScreen from '@/components/ui/LoadingScreen'
 import ClickSpark from '@/components/ui/ClickSpark'
 import ScrollFloat from '@/components/ui/ScrollFloat'
+import FlowingMenu from '@/components/ui/FlowingMenu'
 import { useLoading } from '@/hooks/useLoading'
 import { ChevronDown } from 'lucide-react'
 
@@ -17,6 +19,14 @@ export const page = () => {
   const lenisRef = useRef<LenisRef>(null)
   const [scrollDownOpacity, setScrollDownOpacity] = useState(1)
   const [showScrollDown, setShowScrollDown] = useState(false)
+  const flowingMenuRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const demoItems = [
+    { link: '#', text: 'Work', image: '/image1.jpg' },
+    { link: '#', text: 'Projects', image: '/image2.jpg' },
+    { link: '#', text: 'Skills', image: '/image3.jpg' },
+    { link: '#', text: 'Contact', image: '/image4.jpg' }
+  ]
 
   useEffect(() => {
     function update(time: number) {
@@ -27,6 +37,46 @@ export const page = () => {
 
     return () => gsap.ticker.remove(update)
   }, [])
+
+  // Register ScrollTrigger plugin and setup FlowingMenu animations
+  useEffect(() => {
+    if (isLoading) return
+
+    gsap.registerPlugin(ScrollTrigger)
+
+    // Animate FlowingMenu items
+    flowingMenuRefs.current.forEach((ref, index) => {
+      if (ref) {
+        // Set initial state
+        gsap.set(ref, { 
+          y: 100, 
+          opacity: 0,
+          scale: 0.8
+        })
+
+        // Create animation
+        gsap.to(ref, {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2 + (index * 0.2), // Staggered duration
+          ease: "back.out(2)",
+          scrollTrigger: {
+            trigger: ref,
+            start: "top bottom-=1000px",
+            end: "top center",
+            toggleActions: "play none none reverse",
+            markers: false // Set to true for debugging
+          },
+          delay: index * 0.1 // Staggered delay
+        })
+      }
+    })
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+    }
+  }, [isLoading])
 
   // Prevent scrolling during loading
   useEffect(() => {
@@ -101,7 +151,7 @@ export const page = () => {
           duration={400}
         >
           <div className="min-h-screen flex flex-col justify-between">
-            <div style={{position: 'relative', height: '300px'}}>
+            <div style={{position: 'relative', minHeight: '300px'}} className="flex items-center justify-center">
               <TextPressure
                 text="Portfolio"
                 flex={true}
@@ -154,7 +204,7 @@ export const page = () => {
                   containerClassName="text-left"
                   textClassName="text-white font-bold text-6xl leading-none"
                 >
-                  Hi, My name is Jiehoon Lee
+                  Hi, my name is Jiehoon Lee,
                 </ScrollFloat>
                 
                 <div className="-mt-4">
@@ -167,22 +217,41 @@ export const page = () => {
                     containerClassName="text-left"
                     textClassName="text-white font-bold text-6xl leading-none"
                   >
-                    An aspiring software engineer.
+                    an aspiring software engineer.
                   </ScrollFloat>
                 </div>
                 
-                <div className="-mt-4">
-                  <ScrollFloat
-                    animationDuration={1.4}
-                    ease='back.inOut(2)'
-                    scrollStart='center bottom-=100px'
-                    scrollEnd='center top+=100px'
-                    stagger={0.05}
-                    containerClassName="text-left"
-                    textClassName="text-white font-bold text-6xl leading-none"
+                
+                
+                {/* FlowingMenu items with custom scroll animations - full width */}
+                <div className="mt-8 -ml-8 w-screen">
+                  <div 
+                    className="h-[150px] w-full" 
+                    ref={el => { flowingMenuRefs.current[0] = el }}
                   >
-                    Flowing Menu Reactbits
-                  </ScrollFloat>
+                    <FlowingMenu items={[demoItems[0]]} />
+                  </div>
+                  
+                  <div 
+                    className="h-[150px] w-full" 
+                    ref={el => { flowingMenuRefs.current[1] = el }}
+                  >
+                    <FlowingMenu items={[demoItems[1]]} />
+                  </div>
+                  
+                  <div 
+                    className="h-[150px] w-full" 
+                    ref={el => { flowingMenuRefs.current[2] = el }}
+                  >
+                    <FlowingMenu items={[demoItems[2]]} />
+                  </div>
+                  
+                  <div 
+                    className="h-[150px] w-full" 
+                    ref={el => { flowingMenuRefs.current[3] = el }}
+                  >
+                    <FlowingMenu items={[demoItems[3]]} />
+                  </div>
                 </div>
               </div>
             </div>
