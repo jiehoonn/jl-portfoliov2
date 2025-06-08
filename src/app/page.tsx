@@ -20,12 +20,166 @@ export const page = () => {
   const [scrollDownOpacity, setScrollDownOpacity] = useState(1)
   const [showScrollDown, setShowScrollDown] = useState(false)
   const flowingMenuRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [expandedItems, setExpandedItems] = useState<{ [key: number]: boolean }>({})
+
+  // Toggle expansion for a specific item
+  const toggleExpansion = (index: number) => {
+    setExpandedItems(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }))
+  }
+
+  // Sample content for each menu item
+  const getMenuContent = (itemText: string) => {
+    switch (itemText) {
+      case 'Work':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Professional Experience</h3>
+            <div className="space-y-4">
+              <div className="border-l-4 border-blue-500 pl-4">
+                <h4 className="font-semibold text-lg text-gray-800">Software Developer Intern</h4>
+                <p className="text-gray-600">Accelerant • May 2025 - Present</p>
+                <p className="text-gray-700 mt-2">Developing a Machine Learning Model...</p>
+              </div>
+              <div className="border-l-4 border-green-500 pl-4">
+                <h4 className="font-semibold text-lg text-gray-800">Contract Frontend Developer</h4>
+                <p className="text-gray-600">Jin Chong Marketing • May 2025 - Present</p>
+                <p className="text-gray-700 mt-2">Built responsive user interfaces and optimized performance...</p>
+              </div>
+              <div className="border-l-4 border-red-500 pl-4">
+                <h4 className="font-semibold text-lg text-gray-800">Web Developer</h4>
+                <p className="text-gray-600">Arché Journal • Sept. 2024 - May 2025</p>
+                <p className="text-gray-700 mt-2">Built responsive user interfaces and optimized performance...</p>
+              </div>
+              <div className="border-l-4 border-yellow-500 pl-4">
+                <h4 className="font-semibold text-lg text-gray-800">Software Engineer Fellow</h4>
+                <p className="text-gray-600">BU Spark! Innovation Fellowship • Jan. 2024 - May 2024</p>
+                <p className="text-gray-700 mt-2">Built responsive user interfaces and optimized performance...</p>
+              </div>
+            </div>
+          </div>
+        )
+      case 'Projects':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Featured Projects</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <h4 className="font-semibold text-lg text-gray-800">Portfolio Website</h4>
+                <p className="text-gray-600 mb-2">Next.js, TypeScript, GSAP</p>
+                <p className="text-gray-700">A modern portfolio showcasing my work and skills...</p>
+              </div>
+              
+            </div>
+          </div>
+        )
+      case 'Skills':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Technical Skills</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <h4 className="font-semibold text-lg text-gray-800 mb-3">Frontend</h4>
+                <ul className="space-y-1 text-gray-700">
+                  <li>React / Next.js</li>
+                  <li>TypeScript</li>
+                  <li>Tailwind CSS</li>
+                  <li>GSAP</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-lg text-gray-800 mb-3">Backend</h4>
+                <ul className="space-y-1 text-gray-700">
+                  <li>Node.js</li>
+                  <li>Python</li>
+                  <li>PostgreSQL</li>
+                  <li>MongoDB</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-lg text-gray-800 mb-3">Tools</h4>
+                <ul className="space-y-1 text-gray-700">
+                  <li>Git / GitHub</li>
+                  <li>Docker</li>
+                  <li>AWS</li>
+                  <li>Figma</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )
+      case 'Contact':
+        return (
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Get In Touch</h3>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">@</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-800">Email</p>
+                  <p className="text-gray-600">jiehoonn@bu.edu</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">in</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-800">LinkedIn</p>
+                  <p className="text-gray-600">linkedin.com/in/jiehoonlee2002</p>
+                </div>
+              </div>
+              <div className="mt-6 p-4 bg-gray-100 rounded-lg">
+                <p className="text-gray-700">
+                  I'm always interested in new opportunities and collaborations. 
+                  Feel free to reach out if you'd like to work together!
+                </p>
+              </div>
+            </div>
+          </div>
+        )
+      default:
+        return <div>Content for {itemText}</div>
+    }
+  }
 
   const demoItems = [
-    { link: '#', text: 'Work', image: '/image1.jpg' },
-    { link: '#', text: 'Projects', image: '/image2.jpg' },
-    { link: '#', text: 'Skills', image: '/image3.jpg' },
-    { link: '#', text: 'Contact', image: '/image4.jpg' }
+    { 
+      link: '#', 
+      text: 'Work', 
+      image: '/image1.jpg',
+      content: getMenuContent('Work'),
+      isExpanded: expandedItems[0] || false,
+      onToggle: () => toggleExpansion(0)
+    },
+    { 
+      link: '#', 
+      text: 'Projects', 
+      image: '/image2.jpg',
+      content: getMenuContent('Projects'),
+      isExpanded: expandedItems[1] || false,
+      onToggle: () => toggleExpansion(1)
+    },
+    { 
+      link: '#', 
+      text: 'Skills', 
+      image: '/image3.jpg',
+      content: getMenuContent('Skills'),
+      isExpanded: expandedItems[2] || false,
+      onToggle: () => toggleExpansion(2)
+    },
+    { 
+      link: '#', 
+      text: 'Contact', 
+      image: '/image4.jpg',
+      content: getMenuContent('Contact'),
+      isExpanded: expandedItems[3] || false,
+      onToggle: () => toggleExpansion(3)
+    }
   ]
 
   useEffect(() => {
@@ -225,33 +379,15 @@ export const page = () => {
                 
                 {/* FlowingMenu items with custom scroll animations - full width */}
                 <div className="mt-8 -ml-8 w-screen">
-                  <div 
-                    className="h-[150px] w-full" 
-                    ref={el => { flowingMenuRefs.current[0] = el }}
-                  >
-                    <FlowingMenu items={[demoItems[0]]} />
-                  </div>
-                  
-                  <div 
-                    className="h-[150px] w-full" 
-                    ref={el => { flowingMenuRefs.current[1] = el }}
-                  >
-                    <FlowingMenu items={[demoItems[1]]} />
-                  </div>
-                  
-                  <div 
-                    className="h-[150px] w-full" 
-                    ref={el => { flowingMenuRefs.current[2] = el }}
-                  >
-                    <FlowingMenu items={[demoItems[2]]} />
-                  </div>
-                  
-                  <div 
-                    className="h-[150px] w-full" 
-                    ref={el => { flowingMenuRefs.current[3] = el }}
-                  >
-                    <FlowingMenu items={[demoItems[3]]} />
-                  </div>
+                  {demoItems.map((item, index) => (
+                    <div 
+                      key={index}
+                      className="w-full" 
+                      ref={el => { flowingMenuRefs.current[index] = el }}
+                    >
+                      <FlowingMenu items={[item]} />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
