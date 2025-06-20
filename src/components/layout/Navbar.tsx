@@ -29,29 +29,42 @@ export default function Navbar() {
     <>
       {/* Mobile Hamburger Button */}
       {isMobile && (
-        <button
-          onClick={toggleMenu}
-          className="fixed top-4 left-4 z-50"
-          aria-label="Toggle navigation menu"
-        >
-          <div className="w-6 h-6 relative">
-            <span
-              className={`absolute left-0 w-6 h-0.5 bg-gray-600 transform transition-all duration-300 ${
-                isOpen ? 'rotate-45 top-3' : 'top-1'
-              }`}
+        <div className="fixed top-4 left-4 z-50">
+          <div 
+            className="relative w-12 h-12 cursor-pointer group"
+            onClick={toggleMenu}
+            aria-label="Toggle navigation menu"
+          >
+            <input 
+              type="checkbox" 
+              checked={isOpen}
+              onChange={toggleMenu}
+              className="block w-full h-full absolute opacity-0 cursor-pointer z-10"
             />
-            <span
-              className={`absolute left-0 w-6 h-0.5 bg-gray-600 top-3 transition-opacity duration-300 ${
-                isOpen ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
-            <span
-              className={`absolute left-0 w-6 h-0.5 bg-gray-600 transform transition-all duration-300 ${
-                isOpen ? '-rotate-45 top-3' : 'top-5'
-              }`}
-            />
+            <div className="absolute top-0 right-0 left-0 bottom-0 m-auto w-[22px] h-3">
+              <span 
+                className={`absolute block w-full h-0.5 bg-gray-800 rounded-sm transition-all duration-200 ease-out ${
+                  isOpen 
+                    ? 'top-[5px] rotate-45' 
+                    : 'top-0 group-hover:w-[26px]'
+                }`}
+                style={{ 
+                  transitionTimingFunction: 'cubic-bezier(0.1, 0.82, 0.76, 0.965)' 
+                }}
+              />
+              <span 
+                className={`absolute block w-full h-0.5 bg-gray-800 rounded-sm transition-all duration-200 ease-out ${
+                  isOpen 
+                    ? 'bottom-[5px] -rotate-45' 
+                    : 'bottom-0 group-hover:w-3'
+                }`}
+                style={{ 
+                  transitionTimingFunction: 'cubic-bezier(0.1, 0.82, 0.76, 0.965)' 
+                }}
+              />
+            </div>
           </div>
-        </button>
+        </div>
       )}
 
 
@@ -65,9 +78,22 @@ export default function Navbar() {
         } flex flex-col`}
       >
         {/* Header with Logo and Location/Time */}
-        <div className="p-6 flex justify-between items-start">
-          <Logo />
-          <LocationTime />
+        <div className="p-6">
+          {isMobile ? (
+            // Mobile layout: Logo on top right, LocationTime below it
+            <div className="flex justify-end">
+              <div className="flex flex-col items-end space-y-2">
+                <Logo />
+                <LocationTime />
+              </div>
+            </div>
+          ) : (
+            // Desktop layout: Logo on left, LocationTime on right
+            <div className="flex justify-between items-start">
+              <Logo />
+              <LocationTime />
+            </div>
+          )}
         </div>
         
                 {/* Spacer to push nav links to bottom */}
