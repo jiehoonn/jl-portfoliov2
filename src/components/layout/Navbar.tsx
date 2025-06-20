@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Logo, LocationTime } from '@/components';
+import { Logo, LocationTime, NavLinks } from '@/components';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,14 +62,19 @@ export default function Navbar() {
           isMobile
             ? `w-full ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
             : 'w-96 translate-x-0'
-        }`}
+        } flex flex-col`}
       >
         {/* Header with Logo and Location/Time */}
         <div className="p-6 flex justify-between items-start">
           <Logo />
           <LocationTime />
         </div>
-        {/* Empty navbar container - add your content here */}
+        
+                {/* Spacer to push nav links to bottom */}
+        <div className="flex-1"></div>
+        
+        {/* Navigation Links */}
+        <NavLinks />
       </nav>
 
       {/* Desktop Content Spacer */}
