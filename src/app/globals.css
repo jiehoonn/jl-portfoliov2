@@ -1,6 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Roboto:wght@300;400;500;700&family=Noto+Serif:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Skylark';
+  src: url('/fonts/skylark/Skylark.otf') format('opentype'),
+       url('/fonts/skylark/Skylark.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Skylark';
+  src: url('/fonts/skylark/Skylark-Italic.otf') format('opentype'),
+       url('/fonts/skylark/Skylark-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Skylark';
+  src: url('/fonts/skylark/Skylark-Oblique.otf') format('opentype'),
+       url('/fonts/skylark/Skylark-Oblique.ttf') format('truetype');
+  font-weight: normal;
+  font-style: oblique;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -11,6 +38,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-skylark: 'Skylark', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
