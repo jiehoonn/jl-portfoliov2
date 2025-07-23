@@ -17,6 +17,22 @@ import Link from "next/link";
  *  • Width is always viewport − 164 px (82 px each side), capped at 1265 px
  */
 export default function Navbar() {
+  // Reusable nav link component
+  const NavLink = ({
+    href,
+    children,
+  }: {
+    href: string;
+    children: React.ReactNode;
+  }) => (
+    <Link
+      href={href}
+      className="text-[#6E7F8D] text-center font-[400] text-[24px] leading-normal tracking-[-1.2px] font-[Avenir\ Next] hover:underline"
+      style={{ fontFamily: "Avenir Next, sans-serif" }}
+    >
+      {children}
+    </Link>
+  );
   return (
     <div className="w-full px-[82px] mt-[36px] flex justify-center">
       {/* Mobile: 658px and below: navbar container with only the circle.svg button */}
@@ -36,27 +52,9 @@ export default function Navbar() {
         <div className="flex flex-row items-center">
           <Image src="/circle.svg" alt="Logo" width={88} height={88} priority />
           <nav className="flex flex-row items-center gap-[32px] ml-[32px]">
-            <Link
-              href="#experience"
-              className="text-[#6E7F8D] text-center font-[400] text-[24px] leading-normal tracking-[-1.2px] font-[Avenir\ Next] hover:underline"
-              style={{ fontFamily: "Avenir Next, sans-serif" }}
-            >
-              Experience
-            </Link>
-            <Link
-              href="#projects"
-              className="text-[#6E7F8D] text-center font-[400] text-[24px] leading-normal tracking-[-1.2px] font-[Avenir\ Next] hover:underline"
-              style={{ fontFamily: "Avenir Next, sans-serif" }}
-            >
-              Projects
-            </Link>
-            <Link
-              href="#contact"
-              className="text-[#6E7F8D] text-center font-[400] text-[24px] leading-normal tracking-[-1.2px] font-[Avenir\ Next] hover:underline"
-              style={{ fontFamily: "Avenir Next, sans-serif" }}
-            >
-              Contact
-            </Link>
+            <NavLink href="#experience">Experience</NavLink>
+            <NavLink href="#projects">Projects</NavLink>
+            <NavLink href="#contact">Contact</NavLink>
           </nav>
         </div>
         <div
