@@ -30,9 +30,5 @@ export default function Home() {
     };
   }, []);
 
-  return (
-    <div className="min-h-screen">
-      <h1 className="text-4xl font-bold">Landing Page</h1>
-    </div>
-  );
+  return <div className="min-h-screen"></div>;
 }
