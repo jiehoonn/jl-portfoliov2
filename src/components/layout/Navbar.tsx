@@ -4,7 +4,7 @@ import HamburgerMenu from './HamburgerMenu';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="flex items-center w-full pt-2 pb-5 pl-8 pr-4">
+    <nav className="sticky top-0 z-50 flex items-center w-full pt-2 pb-5 pl-8 pr-4 bg-background">
       {/* Mobile: logo left, hamburger right */}
       <div className="flex justify-between items-center w-full lg:hidden">
         <Logo />
