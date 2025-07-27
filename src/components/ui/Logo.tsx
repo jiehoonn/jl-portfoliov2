@@ -25,7 +25,7 @@ const Logo: React.FC = () => {
       style={{
         color: '#EFF2F9',
         textShadow: '-5px -5px 10px rgba(174, 174, 192, 0.40), 5px 5px 10px #FFF',
-        fontFamily: '"Avenir Next"',
+                 fontFamily: 'Montserrat',
         fontSize: '55px',
         fontWeight: 700,
         letterSpacing: '-1px',

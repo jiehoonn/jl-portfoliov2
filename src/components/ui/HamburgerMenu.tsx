@@ -39,7 +39,7 @@ const MenuItems: React.FC<MenuItemsProps> = ({ isOpen, onItemClick, direction })
           className={`px-2 py-1 text-sm text-gray-800 rounded-lg transition-all duration-500 transform ${translateClass}`}
           style={{
             transitionDelay: isOpen ? `${150 + index * 150}ms` : '0ms',
-            fontFamily: '"Avenir Next"'
+                         fontFamily: 'Montserrat'
           }}
           onClick={onItemClick}
         >

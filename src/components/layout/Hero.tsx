@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import StudentInfo from './StudentInfo';
+import SkillsInfo from './SkillsInfo';
 
 export default function Hero() {
   const [isHovered, setIsHovered] = useState(false);
@@ -9,9 +11,9 @@ export default function Hero() {
   return (
     <section className="min-h-screen flex items-center px-6 lg:px-8">
       <div className="max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-8 lg:gap-12 items-center">
           {/* Left Column - Image */}
-          <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+          <div className="order-1 lg:order-1 flex justify-center lg:justify-start">
             <div 
               className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl cursor-pointer"
               onMouseEnter={() => setIsHovered(true)}
@@ -41,9 +43,12 @@ export default function Hero() {
             </div>
           </div>
           
-          {/* Right Column - Content (placeholder for now) */}
-          <div className="order-1 lg:order-2">
-            {/* Content will be implemented later */}
+          {/* Right Column - Content */}
+          <div className="order-2 lg:order-2">
+            <div className="flex flex-col gap-6 lg:gap-8">
+              <StudentInfo />
+              <SkillsInfo />
+            </div>
           </div>
         </div>
       </div>

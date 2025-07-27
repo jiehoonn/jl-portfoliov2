@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Roboto:wght@300;400;500;700&family=Noto+Serif:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sen:wght@400..800&display=swap');
+/* TODO: FIND BETTER FONT */
 @import "tailwindcss";
 
 :root {
@@ -21,12 +22,21 @@
   }
 }
 
-/* Nanum Pen Script: Handwritten Korean Font */
-/* Roboto: Modern Sans-Serif Font */
-/* Noto Serif: Elegant Serif Font */
+/* Montserrat: Modern Sans-Serif Font */
+/* Sen: Clean Readable Font */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Noto Serif", "Roboto", "Nanum Pen Script", Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", "Sen", Arial, Helvetica, sans-serif;
+}
+
+/* Neumorphism effect for StudentInfo component */
+.neumorphism {
+  box-shadow: -5px -5px 10px 0 rgba(174, 174, 192, 0.40), 5px 5px 10px 0 #FFF;
+}
+
+/* Text neumorphism effect for Skills title */
+.text-neumorphism {
+  text-shadow: -5px -5px 10px rgba(174, 174, 192, 0.40), 5px 5px 10px #FFF;
 }
