@@ -1,10 +1,10 @@
 import React from 'react';
-import Logo from './Logo';
-import HamburgerMenu from './HamburgerMenu';
+import Logo from '../ui/Logo';
+import HamburgerMenu from '../ui/HamburgerMenu';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="sticky top-0 z-50 flex items-center w-full pt-2 pb-5 pl-8 pr-4 bg-background">
+    <nav className="sticky top-0 z-50 flex items-center w-full pt-2 pb-5 pl-8 pr-4">
       {/* Mobile: logo left, hamburger right */}
       <div className="flex justify-between items-center w-full lg:hidden">
         <Logo />
