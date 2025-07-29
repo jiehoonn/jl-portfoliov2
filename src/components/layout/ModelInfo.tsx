@@ -7,10 +7,10 @@ export default function ModelInfo() {
     <div className="flex flex-col gap-1 items-start text-left">
       {/* Title */}
       <h2 
-        className="text-[#6E7F8D] text-xs sm:text-sm md:text-base font-bold leading-tight tracking-tight text-left"
+        className="text-[#6E7F8D] text-xs sm:text-sm md:text-base leading-tight tracking-tight text-left"
         style={{ fontFamily: 'Montserrat' }}
       >
-        Jiehoon Lee
+        Model: <span className="font-semibold"> Jiehoon Lee</span>
       </h2>
       
       {/* Info items in a row */}

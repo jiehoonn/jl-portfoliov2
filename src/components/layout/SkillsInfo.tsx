@@ -36,46 +36,24 @@ export default function SkillsInfo() {
   ];
 
   return (
-    <div className="flex flex-col items-start gap-2.5 p-6 lg:p-8 rounded-[50px] bg-[#EFF2F9] neumorphism flex-shrink-0 self-stretch">
-      <div className="flex flex-col items-start w-full">
-        {/* Skills Title */}
-        <h2 
-          className="self-stretch mb-1 -mt-5"
-          style={{ 
-            color: '#EFF2F9',
-            textShadow: '-5px -5px 10px rgba(174, 174, 192, 0.40), 5px 5px 10px #FFF',
-            fontFamily: 'var(--font-montserrat), Montserrat, sans-serif',
-            fontSize: '80px',
-            fontStyle: 'normal',
-            fontWeight: 700,
-            lineHeight: 'normal',
-            letterSpacing: '-4.8px'
-          }}
+    <div className="grid gap-2 lg:gap-3 self-stretch grid-cols-[repeat(auto-fit,minmax(50px,1fr))]">
+      {skills.map((skill: Skill) => (
+        <div
+          key={skill.name}
+          className="flex items-center justify-center aspect-square p-1.5 rounded-[15px] bg-[#EFF2F9] neumorphism"
+          role="img"
+          aria-label={`${skill.name} technology skill`}
         >
-          Skills
-        </h2>
-        
-        {/* Skills Grid */}
-        <div className="grid gap-3 lg:gap-4 self-stretch grid-cols-[repeat(auto-fit,minmax(75px,1fr))]">
-          {skills.map((skill: Skill) => (
-            <div
-              key={skill.name}
-              className="flex items-center justify-center aspect-square p-2 rounded-[20px] bg-[#EFF2F9] neumorphism"
-              role="img"
-              aria-label={`${skill.name} technology skill`}
-            >
-              <Image
-                src={skill.icon}
-                alt={`${skill.name} programming technology icon`}
-                width={61}
-                height={61}
-                className="w-full h-full object-contain flex-shrink-0"
-                priority={false}
-              />
-            </div>
-          ))}
+          <Image
+            src={skill.icon}
+            alt={`${skill.name} programming technology icon`}
+            width={40}
+            height={40}
+            className="w-full h-full object-contain flex-shrink-0"
+            priority={false}
+          />
         </div>
-      </div>
+      ))}
     </div>
   );
 } 
