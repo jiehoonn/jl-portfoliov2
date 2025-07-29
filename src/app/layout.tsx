@@ -26,12 +26,14 @@ export default function RootLayout({
         style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
       >
         {/* App wrapper */}
-        <div className="flex flex-col min-h-screen">
-          {/* Global navigation bar */}
-          <Navbar />
+        <div className="relative min-h-screen">
+          {/* Global navigation bar - overlay */}
+          <div className="fixed top-0 left-0 right-0 z-50">
+            <Navbar />
+          </div>
 
-          {/* Main page content */}
-          <main className="flex-1">{children}</main>
+          {/* Main page content - full screen */}
+          <main className="min-h-screen">{children}</main>
         </div>
       </body>
     </html>
