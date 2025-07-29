@@ -1,22 +1,14 @@
 'use client';
 
-import Image from 'next/image';
 import ModelInfo from './ModelInfo';
+import LegoModel3D from '../common/LegoModel3D';
 
 export default function Hero() {
   return (
     <section className="min-h-screen relative flex items-center justify-center px-4 py-8">
-      {/* Lego Model Image - centered */}
+      {/* 3D Lego Model - centered */}
       <div className="flex items-center justify-center w-full max-w-2xl">
-        <div className="relative w-full aspect-square max-w-[400px] sm:max-w-[450px] md:max-w-[500px] lg:max-w-[550px]">
-          <Image
-            src="/lego-model-front.png"
-            alt="Lego Model - Jiehoon Lee"
-            fill
-            className="object-contain"
-            priority
-          />
-        </div>
+        <LegoModel3D />
       </div>
 
       {/* Model Info - positioned at bottom left */}
