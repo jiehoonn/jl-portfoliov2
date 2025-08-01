@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Lenis from "lenis";
 import Hero from "@/components/layout/Hero";
 import Experience from "@/components/layout/Experience";
+import Projects from "@/components/layout/Projects";
 import ModelInfo from "@/components/layout/ModelInfo";
 
 export default function Home() {
@@ -37,6 +38,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Hero />
       <Experience />
+      <Projects />
       <ModelInfo />
     </div>
   );
