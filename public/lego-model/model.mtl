@@ -1,0 +1,78 @@
+# www.mecabricks.com
+newmtl MB_140_official_3288
+Ka 1.0 1.0 1.0
+Kd 0.0030352698352941175 0.01764195448412081 0.05286064701616471
+map_Kd textures/2/official/color/3815d43.png
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+
+newmtl MB_140_official_3290
+Ka 1.0 1.0 1.0
+Kd 0.0030352698352941175 0.01764195448412081 0.05286064701616471
+map_Kd textures/2/official/color/3816d43.png
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+
+newmtl MB_140_official_3292
+Ka 1.0 1.0 1.0
+Kd 0.0030352698352941175 0.01764195448412081 0.05286064701616471
+map_Kd textures/2/official/color/3817d43.png
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+
+newmtl MB_140_official_14224
+Ka 1.0 1.0 1.0
+Kd 0.0030352698352941175 0.01764195448412081 0.05286064701616471
+map_Kd textures/2/official/color/3814d2252.png
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+
+newmtl MB_140
+Ka 1.0 1.0 1.0
+Kd 0.0030352698352941175 0.01764195448412081 0.05286064701616471
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+
+newmtl MB_283
+Ka 1.0 1.0 1.0
+Kd 0.9559733532482866 0.6375968739867731 0.4396571738310091
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+
+newmtl MB_106
+Ka 1.0 1.0 1.0
+Kd 0.913098651791473 0.20507873637973145 0.01680737574872402
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+
+newmtl MB_283_official_298
+Ka 1.0 1.0 1.0
+Kd 0.9559733532482866 0.6375968739867731 0.4396571738310091
+map_Kd textures/1/official/decoration/3626d75.png
+Ks 0.0 0.0 0.0
+Ni 1.5
+d 1
+illum 2
+
+

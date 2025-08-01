@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import Lenis from "lenis";
 import Hero from "@/components/layout/Hero";
+import Experience from "@/components/layout/Experience";
+import ModelInfo from "@/components/layout/ModelInfo";
 
 export default function Home() {
   useEffect(() => {
@@ -34,6 +36,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Hero />
+      <Experience />
+      <ModelInfo />
     </div>
   );
 }
