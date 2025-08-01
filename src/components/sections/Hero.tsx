@@ -1,6 +1,6 @@
 'use client';
 
-import LegoModel3D from '../common/LegoModel3D';
+import LegoModel3D from '../models/LegoModel3D';
 
 export default function Hero() {
   return (

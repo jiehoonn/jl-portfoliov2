@@ -1,6 +1,6 @@
 'use client';
 
-import BabyMiloModel3D from '../common/BabyMiloModel3D';
+import BabyMiloModel3D from '../models/BabyMiloModel3D';
 
 export default function Projects() {
   return (

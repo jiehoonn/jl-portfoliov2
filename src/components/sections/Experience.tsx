@@ -1,6 +1,6 @@
 'use client';
 
-import LabubuModel3D from '../common/LabubuModel3D';
+import LabubuModel3D from '../models/LabubuModel3D';
 
 export default function Experience() {
   return (
