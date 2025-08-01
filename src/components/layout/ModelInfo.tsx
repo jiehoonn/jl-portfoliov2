@@ -29,6 +29,7 @@ export default function ModelInfo() {
   const [activeExperience, setActiveExperience] = useState<string | null>(null);
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [isSkillsVisible, setIsSkillsVisible] = useState(false);
+  const [isContactVisible, setIsContactVisible] = useState(false);
   const experienceRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
 
@@ -86,6 +87,14 @@ export default function ModelInfo() {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       
+      // Check if Contact section is visible (assuming it starts around 2.8x window height)
+      if (scrollY >= windowHeight * 2.8) {
+        setIsContactVisible(true);
+        return; // Early return to avoid setting other sections
+      } else {
+        setIsContactVisible(false);
+      }
+      
       // Define section thresholds
       if (scrollY < windowHeight * 0.8) {
         // Hero section
@@ -128,41 +137,43 @@ export default function ModelInfo() {
 
   return (
     <div className="fixed bottom-8 left-4 sm:left-8 md:left-12 z-50 transition-all duration-500 ease-in-out" ref={experienceRef}>
-      <div className="flex flex-col gap-1 items-start text-left">
-        {/* Title with Skills Arrow */}
-        <div className="relative group" ref={skillsRef}>
-          {/* Skills popup - only show for Model section */}
-          {currentSection.title.includes('Model') && (
-            <div className={`absolute bottom-full left-0 mb-4 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto ${
-              isSkillsVisible 
-                ? 'opacity-100 pointer-events-auto' 
-                : 'opacity-0 group-hover:opacity-100'
-            }`}>
-              <div className="bg-[#EFF2F9] neumorphism rounded-[20px] p-6 w-[300px] sm:w-[350px] md:w-[400px]">
-                <SkillsInfo />
-              </div>
-            </div>
-          )}
-          
-          <div className="flex items-center gap-2">
-            <h2 
-              className="text-[#6E7F8D] text-xs sm:text-sm md:text-base leading-tight tracking-tight text-left"
-              style={{ fontFamily: 'Montserrat' }}
-            >
-              {currentSection.title}
-            </h2>
-            
-            {/* Arrow icon - only show for Model section */}
+      {/* Only show content when Contact section is not visible */}
+      {!isContactVisible && (
+        <div className="flex flex-col gap-1 items-start text-left">
+          {/* Title with Skills Arrow */}
+          <div className="relative group" ref={skillsRef}>
+            {/* Skills popup - only show for Model section */}
             {currentSection.title.includes('Model') && (
-              <span 
-                className="text-[#6E7F8D] text-[10px] sm:text-xs cursor-pointer select-none hover:text-[#171717] transition-colors duration-200"
-                onClick={toggleSkills}
-              >
-                ↗
-              </span>
+              <div className={`absolute bottom-full left-0 mb-4 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto ${
+                isSkillsVisible 
+                  ? 'opacity-100 pointer-events-auto' 
+                  : 'opacity-0 group-hover:opacity-100'
+              }`}>
+                <div className="bg-[#EFF2F9] neumorphism rounded-[20px] p-6 w-[300px] sm:w-[350px] md:w-[400px]">
+                  <SkillsInfo />
+                </div>
+              </div>
             )}
+            
+            <div className="flex items-center gap-2">
+              <h2 
+                className="text-[#6E7F8D] text-xs sm:text-sm md:text-base leading-tight tracking-tight text-left"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                {currentSection.title}
+              </h2>
+              
+              {/* Arrow icon - only show for Model section */}
+              {currentSection.title.includes('Model') && (
+                <span 
+                  className="text-[#6E7F8D] text-[10px] sm:text-xs cursor-pointer select-none hover:text-[#171717] transition-colors duration-200"
+                  onClick={toggleSkills}
+                >
+                  ↗
+                </span>
+              )}
+            </div>
           </div>
-        </div>
         
         {/* Dynamic content items */}
         <div className={`flex gap-1 items-start ${
@@ -269,6 +280,7 @@ export default function ModelInfo() {
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }

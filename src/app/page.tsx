@@ -5,6 +5,7 @@ import Lenis from "lenis";
 import Hero from "@/components/layout/Hero";
 import Experience from "@/components/layout/Experience";
 import Projects from "@/components/layout/Projects";
+import Contact from "@/components/layout/Contact";
 import ModelInfo from "@/components/layout/ModelInfo";
 
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
       <Hero />
       <Experience />
       <Projects />
+      <Contact />
       <ModelInfo />
     </div>
   );
