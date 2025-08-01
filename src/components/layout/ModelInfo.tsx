@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import SkillsInfo from './SkillsInfo';
 
 interface SectionContent {
@@ -30,6 +30,7 @@ export default function ModelInfo() {
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [isSkillsVisible, setIsSkillsVisible] = useState(false);
   const [isContactVisible, setIsContactVisible] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const experienceRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
 
@@ -60,6 +61,21 @@ export default function ModelInfo() {
   const toggleSkills = () => {
     setIsSkillsVisible(!isSkillsVisible);
   };
+
+  // Helper function to handle smooth section transitions
+  const updateSection = useCallback((newSection: SectionContent) => {
+    if (newSection.title !== currentSection.title) {
+      setIsTransitioning(true);
+      // Trigger fade out
+      setTimeout(() => {
+        setCurrentSection(newSection);
+        // Trigger fade in after content change
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 50);
+      }, 200);
+    }
+  }, [currentSection.title]);
 
   // Handle clicking outside to close the experience details
   useEffect(() => {
@@ -98,7 +114,7 @@ export default function ModelInfo() {
       // Define section thresholds
       if (scrollY < windowHeight * 0.8) {
         // Hero section
-        setCurrentSection({
+        updateSection({
           title: "Model: Jiehoon Lee",
           items: [
             "Origin: Miami, FL",
@@ -108,7 +124,7 @@ export default function ModelInfo() {
         });
       } else if (scrollY >= windowHeight * 0.8 && scrollY < windowHeight * 1.8) {
         // Experience section
-        setCurrentSection({
+        updateSection({
           title: "Experience: Professional Journey",
           items: [
             "Software Development Intern @ Accelerant",
@@ -119,7 +135,7 @@ export default function ModelInfo() {
         });
       } else if (scrollY >= windowHeight * 1.8) {
         // Projects section
-        setCurrentSection({
+        updateSection({
           title: "Projects: Technical Showcase",
           items: [
             "Stock Trading Platform",
@@ -133,21 +149,33 @@ export default function ModelInfo() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [updateSection]);
 
   return (
-    <div className="fixed bottom-8 left-4 sm:left-8 md:left-12 z-50 transition-all duration-500 ease-in-out" ref={experienceRef}>
-      {/* Only show content when Contact section is not visible */}
-      {!isContactVisible && (
-        <div className="flex flex-col gap-1 items-start text-left">
-          {/* Title with Skills Arrow */}
-          <div className="relative group" ref={skillsRef}>
-            {/* Skills popup - only show for Model section */}
-            {currentSection.title.includes('Model') && (
-              <div className={`absolute bottom-full left-0 mb-4 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto ${
-                isSkillsVisible 
-                  ? 'opacity-100 pointer-events-auto' 
-                  : 'opacity-0 group-hover:opacity-100'
+    <>
+      {/* Blue to transparent gradient overlay - spans full viewport */}
+      <div className="fixed bottom-0 left-0 w-full h-32 lg:h-40 pointer-events-none z-40 bg-gradient-to-t from-[#EFF2F9] via-[#EFF2F9]/80 to-transparent"></div>
+      
+      <div className={`fixed bottom-8 left-4 sm:left-8 md:left-12 z-50 transition-all duration-500 ease-in-out ${
+        isContactVisible 
+          ? 'opacity-0 translate-y-4 pointer-events-none' 
+          : 'opacity-100 translate-y-0 pointer-events-auto'
+      }`} ref={experienceRef}>
+        {/* Content with conditional rendering and additional animation */}
+        <div className={`transition-all duration-300 ease-in-out ${
+          isContactVisible 
+            ? 'opacity-0 translate-y-2 scale-95' 
+            : 'opacity-100 translate-y-0 scale-100'
+        }`}>
+          <div className="flex flex-col gap-1 items-start text-left">
+            {/* Title with Skills Arrow */}
+            <div className="relative group" ref={skillsRef}>
+              {/* Skills popup - only show for Model section */}
+              {currentSection.title.includes('Model') && (
+                <div className={`absolute bottom-full left-0 mb-4 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto ${
+                  isSkillsVisible 
+                    ? 'opacity-100 pointer-events-auto' 
+                    : 'opacity-0 group-hover:opacity-100'
               }`}>
                 <div className="bg-[#EFF2F9] neumorphism rounded-[20px] p-6 w-[300px] sm:w-[350px] md:w-[400px]">
                   <SkillsInfo />
@@ -157,7 +185,9 @@ export default function ModelInfo() {
             
             <div className="flex items-center gap-2">
               <h2 
-                className="text-[#6E7F8D] text-xs sm:text-sm md:text-base leading-tight tracking-tight text-left"
+                className={`text-[#6E7F8D] text-xs sm:text-sm md:text-base leading-tight tracking-tight text-left transition-all duration-300 ease-in-out ${
+                  isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+                }`}
                 style={{ fontFamily: 'Montserrat' }}
               >
                 {currentSection.title}
@@ -166,7 +196,9 @@ export default function ModelInfo() {
               {/* Arrow icon - only show for Model section */}
               {currentSection.title.includes('Model') && (
                 <span 
-                  className="text-[#6E7F8D] text-[10px] sm:text-xs cursor-pointer select-none hover:text-[#171717] transition-colors duration-200"
+                  className={`text-[#6E7F8D] text-[10px] sm:text-xs cursor-pointer select-none hover:text-[#171717] transition-all duration-300 ${
+                    isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+                  }`}
                   onClick={toggleSkills}
                 >
                   ↗
@@ -176,13 +208,25 @@ export default function ModelInfo() {
           </div>
         
         {/* Dynamic content items */}
-        <div className={`flex gap-1 items-start ${
+        <div className={`flex gap-1 items-start transition-all duration-300 ease-in-out ${
+          isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+        } ${
           currentSection.title.includes('Experience') || currentSection.title.includes('Projects')
             ? 'flex-col' 
             : 'flex-col sm:flex-row sm:gap-3 flex-wrap'
         }`}>
           {currentSection.items.map((item, index) => (
-            <div key={index} className="relative group">
+            <div 
+              key={index} 
+              className={`relative group transition-all duration-300 ease-in-out ${
+                isTransitioning 
+                  ? 'opacity-0 translate-y-2' 
+                  : 'opacity-100 translate-y-0'
+              }`}
+              style={{ 
+                transitionDelay: isTransitioning ? '0ms' : `${index * 50}ms` 
+              }}
+            >
               <div className="flex items-center gap-2">
                 <span 
                   className="text-[#6E7F8D] text-[10px] sm:text-xs md:text-sm font-normal leading-tight tracking-tight text-left"
@@ -279,8 +323,9 @@ export default function ModelInfo() {
             </div>
           ))}
         </div>
+        </div>
+        </div>
       </div>
-      )}
-    </div>
+    </>
   );
 }

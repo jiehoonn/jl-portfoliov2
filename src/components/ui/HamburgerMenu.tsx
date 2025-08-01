@@ -29,6 +29,34 @@ const MenuItems: React.FC<MenuItemsProps> = ({ isOpen, onItemClick, direction })
     ? 'flex flex-col items-end gap-3'
     : 'flex flex-row whitespace-nowrap items-center gap-6 pr-5';
 
+  const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    onItemClick();
+    
+    // Get the target element
+    const targetId = href.replace('#', '');
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      // Use Lenis scrollTo if available, otherwise fallback to native scrollIntoView
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const lenis = (window as { lenis?: any }).lenis;
+      if (lenis) {
+        lenis.scrollTo(targetElement, {
+          offset: -100, // Add some offset for navbar
+          duration: 1.2,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      } else {
+        // Fallback for smooth scrolling
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+    }
+  };
+
   return (
     <div className={containerClass} role="menu">
       {menuItems.map((item, index) => (
@@ -36,12 +64,12 @@ const MenuItems: React.FC<MenuItemsProps> = ({ isOpen, onItemClick, direction })
           key={item.href}
           href={item.href}
           role="menuitem"
-          className={`px-2 py-1 text-sm text-gray-800 rounded-lg transition-all duration-500 transform ${translateClass}`}
+          className={`px-2 py-1 text-sm text-gray-800 rounded-lg transition-all duration-500 transform cursor-pointer hover:bg-gray-100 ${translateClass}`}
           style={{
             transitionDelay: isOpen ? `${150 + index * 150}ms` : '0ms',
-                         fontFamily: 'Montserrat'
+            fontFamily: 'Montserrat'
           }}
-          onClick={onItemClick}
+          onClick={(e) => handleItemClick(e, item.href)}
         >
           {item.label}
         </a>

@@ -24,6 +24,10 @@ export default function Home() {
       overscroll: true,
     });
 
+    // Make Lenis available globally for navigation
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as { lenis?: any }).lenis = lenis;
+
     // Listen for scroll events
     lenis.on("scroll", (e) => {
       console.log("Scroll position:", e.animatedScroll);
@@ -32,15 +36,23 @@ export default function Home() {
     // Cleanup
     return () => {
       lenis.destroy();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (window as { lenis?: any }).lenis;
     };
   }, []);
 
   return (
     <div className="min-h-screen">
       <Hero />
-      <Experience />
-      <Projects />
-      <Contact />
+      <div id="experience">
+        <Experience />
+      </div>
+      <div id="projects">
+        <Projects />
+      </div>
+      <div id="contact">
+        <Contact />
+      </div>
       <ModelInfo />
     </div>
   );
