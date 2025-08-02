@@ -7,10 +7,28 @@ import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import Contact from "@/components/sections/Contact";
 import ModelInfo from "@/components/layout/ModelInfo";
+import { hasMemory, WindowWithLenis } from "@/types/performance";
 
 export default function Home() {
   useEffect(() => {
-    // Initialize Lenis
+    // Memory monitoring for debugging
+    const monitorMemory = () => {
+      if (hasMemory(performance)) {
+        const memory = performance.memory;
+        console.log('Memory usage:', {
+          used: Math.round(memory.usedJSHeapSize / 1048576) + ' MB',
+          total: Math.round(memory.totalJSHeapSize / 1048576) + ' MB',
+          limit: Math.round(memory.jsHeapSizeLimit / 1048576) + ' MB',
+          percentage: Math.round((memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100) + '%'
+        });
+      }
+    };
+
+    // Monitor memory every 5 seconds
+    const memoryInterval = setInterval(monitorMemory, 5000);
+    monitorMemory(); // Initial check
+
+    // Initialize Lenis with mobile-optimized settings
     const lenis = new Lenis({
       autoRaf: true,
       lerp: 0.1,
@@ -25,8 +43,7 @@ export default function Home() {
     });
 
     // Make Lenis available globally for navigation
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as { lenis?: any }).lenis = lenis;
+    (window as WindowWithLenis).lenis = lenis;
 
     // Listen for scroll events
     lenis.on("scroll", (e) => {
@@ -35,9 +52,9 @@ export default function Home() {
 
     // Cleanup
     return () => {
+      clearInterval(memoryInterval);
       lenis.destroy();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      delete (window as { lenis?: any }).lenis;
+      delete (window as WindowWithLenis).lenis;
     };
   }, []);
 

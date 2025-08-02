@@ -4,6 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -33,16 +34,18 @@ export default function RootLayout({
         className={`${montserrat.variable} antialiased`}
         style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
       >
-        {/* App wrapper */}
-        <div className="relative min-h-screen">
-          {/* Global navigation bar - overlay */}
-          <div className="fixed top-0 left-0 right-0 z-50">
-            <Navbar />
-          </div>
+        <ErrorBoundary>
+          {/* App wrapper */}
+          <div className="relative min-h-screen">
+            {/* Global navigation bar - overlay */}
+            <div className="fixed top-0 left-0 right-0 z-50">
+              <Navbar />
+            </div>
 
-          {/* Main page content - full screen */}
-          <main className="min-h-screen">{children}</main>
-        </div>
+            {/* Main page content - full screen */}
+            <main className="min-h-screen">{children}</main>
+          </div>
+        </ErrorBoundary>
         
         {/* Vercel Speed Insights & Analytics */}
         <SpeedInsights />
