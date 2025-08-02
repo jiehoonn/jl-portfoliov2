@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 
@@ -41,6 +43,10 @@ export default function RootLayout({
           {/* Main page content - full screen */}
           <main className="min-h-screen">{children}</main>
         </div>
+        
+        {/* Vercel Speed Insights & Analytics */}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
