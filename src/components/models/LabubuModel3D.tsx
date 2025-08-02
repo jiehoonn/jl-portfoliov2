@@ -9,6 +9,7 @@ function RotatingLabubu() {
   const modelRef = useRef<Group>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [contextLost, setContextLost] = useState(false);
   
   // Always call hooks at the top level - no conditional calls
   const gltfResult = useGLTF('/labubu-draco-compressed.glb', true);
@@ -16,20 +17,49 @@ function RotatingLabubu() {
 
   useEffect(() => {
     try {
-      if (scene) {
+      if (scene && !contextLost) {
         console.log('Labubu model loaded successfully (7MB Draco compressed)', scene);
         setIsLoading(false);
+        setHasError(false);
       }
     } catch (error) {
       console.error('Error processing Labubu model (7MB Draco compressed):', error);
       setHasError(true);
       setIsLoading(false);
     }
-  }, [scene]);
+  }, [scene, contextLost]);
+
+  // Handle WebGL context lost/restored
+  useEffect(() => {
+    const handleContextLost = (event: Event) => {
+      console.warn('Labubu: WebGL context lost, preventing default and preparing to recover');
+      event.preventDefault();
+      setContextLost(true);
+      setIsLoading(true);
+    };
+
+    const handleContextRestored = () => {
+      console.log('Labubu: WebGL context restored, reloading model');
+      setContextLost(false);
+      setIsLoading(true);
+      setHasError(false);
+    };
+
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      canvas.addEventListener('webglcontextlost', handleContextLost);
+      canvas.addEventListener('webglcontextrestored', handleContextRestored);
+      
+      return () => {
+        canvas.removeEventListener('webglcontextlost', handleContextLost);
+        canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+      };
+    }
+  }, []);
 
   // Gentle automatic rotation that works with OrbitControls
   useFrame(() => {
-    if (modelRef.current && !isLoading && !hasError) {
+    if (modelRef.current && !isLoading && !hasError && !contextLost) {
       modelRef.current.rotation.y += 0.001; // Slower for large model
     }
   });
@@ -43,18 +73,29 @@ function RotatingLabubu() {
     );
   }
 
-  if (isLoading) {
-    console.log('Labubu scene loading... (7MB Draco compressed file)');
+  if (isLoading || contextLost) {
+    const loadingMessage = contextLost 
+      ? 'Labubu: Recovering from WebGL context loss...' 
+      : 'Labubu scene loading... (7MB Draco compressed file)';
+    console.log(loadingMessage);
     return (
       <group>
         <mesh>
           <boxGeometry args={[1, 2, 1]} />
-          <meshStandardMaterial color="#E6E6FA" opacity={0.7} transparent />
+          <meshStandardMaterial 
+            color={contextLost ? "#FFB6C1" : "#E6E6FA"} 
+            opacity={0.7} 
+            transparent 
+          />
         </mesh>
         {/* Loading indicator */}
         <mesh position={[0, 3, 0]}>
           <boxGeometry args={[0.1, 0.1, 0.1]} />
-          <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.5} />
+          <meshStandardMaterial 
+            color="#FFD700" 
+            emissive="#FFD700" 
+            emissiveIntensity={contextLost ? 0.2 : 0.5} 
+          />
         </mesh>
       </group>
     );

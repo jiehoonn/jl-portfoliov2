@@ -9,27 +9,57 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
   const modelRef = useRef<Group>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [contextLost, setContextLost] = useState(false);
   
   // Always call hooks at the top level - no conditional calls
-  const gltfResult = useGLTF('/baby-milo-compressed.glb');
+  const gltfResult = useGLTF('/baby-milo-ultra-compressed.glb');
   const { scene } = gltfResult || {};
 
   useEffect(() => {
     try {
-      if (scene) {
-        console.log('Baby Milo model loaded successfully', scene);
+      if (scene && !contextLost) {
+        console.log('Baby Milo model loaded successfully (3.9MB ultra-compressed)', scene);
         setIsLoading(false);
+        setHasError(false);
       }
     } catch (error) {
-      console.error('Error processing Baby Milo model:', error);
+      console.error('Error processing Baby Milo model (3.9MB ultra-compressed):', error);
       setHasError(true);
       setIsLoading(false);
     }
-  }, [scene]);
+  }, [scene, contextLost]);
+
+  // Handle WebGL context lost/restored
+  useEffect(() => {
+    const handleContextLost = (event: Event) => {
+      console.warn('Baby Milo: WebGL context lost, preventing default and preparing to recover');
+      event.preventDefault();
+      setContextLost(true);
+      setIsLoading(true);
+    };
+
+    const handleContextRestored = () => {
+      console.log('Baby Milo: WebGL context restored, reloading model');
+      setContextLost(false);
+      setIsLoading(true);
+      setHasError(false);
+    };
+
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      canvas.addEventListener('webglcontextlost', handleContextLost);
+      canvas.addEventListener('webglcontextrestored', handleContextRestored);
+      
+      return () => {
+        canvas.removeEventListener('webglcontextlost', handleContextLost);
+        canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+      };
+    }
+  }, []);
 
   // Gentle automatic rotation
   useFrame(() => {
-    if (modelRef.current && !isLoading && !hasError) {
+    if (modelRef.current && !isLoading && !hasError && !contextLost) {
       const rotationSpeed = isMobile ? 0.002 : 0.003;
       modelRef.current.rotation.y += rotationSpeed;
     }
@@ -44,12 +74,19 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
     );
   }
 
-  if (isLoading) {
-    console.log('Baby Milo scene loading...');
+  if (isLoading || contextLost) {
+    const loadingMessage = contextLost 
+      ? 'Baby Milo: Recovering from WebGL context loss...' 
+      : 'Baby Milo scene loading... (3.9MB ultra-compressed)';
+    console.log(loadingMessage);
     return (
       <mesh>
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="#F0E68C" opacity={0.7} transparent />
+        <meshStandardMaterial 
+          color={contextLost ? "#FFB6C1" : "#F0E68C"} 
+          opacity={0.7} 
+          transparent 
+        />
       </mesh>
     );
   }
@@ -111,5 +148,5 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
   );
 }
 
-// Preload the compressed model
-useGLTF.preload('/baby-milo-compressed.glb');
+// Preload the ultra-compressed model
+useGLTF.preload('/baby-milo-ultra-compressed.glb');
