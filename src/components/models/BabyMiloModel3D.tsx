@@ -7,7 +7,7 @@ import { Group } from 'three';
 
 function RotatingBabyMilo() {
   const modelRef = useRef<Group>(null);
-  const { scene } = useGLTF('/baby-milo-colored.glb');
+  const { scene } = useGLTF('/baby-milo-compressed.glb');
 
   // Gentle automatic rotation
   useFrame(() => {
@@ -67,5 +67,5 @@ export default function BabyMiloModel3D() {
   );
 }
 
-// Preload the model
-useGLTF.preload('/baby-milo-colored.glb');
+// Preload the compressed model
+useGLTF.preload('/baby-milo-compressed.glb');
