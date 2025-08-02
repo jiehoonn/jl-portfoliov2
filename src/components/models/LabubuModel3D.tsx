@@ -11,17 +11,17 @@ function RotatingLabubu() {
   const [hasError, setHasError] = useState(false);
   
   // Always call hooks at the top level - no conditional calls
-  const gltfResult = useGLTF('/labubu-ultra-compressed.glb', true);
+  const gltfResult = useGLTF('/labubu-draco-compressed.glb', true);
   const { scene } = gltfResult || {};
 
   useEffect(() => {
     try {
       if (scene) {
-        console.log('Labubu model loaded successfully (36MB compressed)', scene);
+        console.log('Labubu model loaded successfully (7MB Draco compressed)', scene);
         setIsLoading(false);
       }
     } catch (error) {
-      console.error('Error processing Labubu model (36MB compressed):', error);
+      console.error('Error processing Labubu model (7MB Draco compressed):', error);
       setHasError(true);
       setIsLoading(false);
     }
@@ -44,7 +44,7 @@ function RotatingLabubu() {
   }
 
   if (isLoading) {
-    console.log('Labubu scene loading... (36MB compressed file)');
+    console.log('Labubu scene loading... (7MB Draco compressed file)');
     return (
       <group>
         <mesh>
@@ -61,7 +61,7 @@ function RotatingLabubu() {
   }
 
   if (!scene) {
-    console.warn('Labubu scene failed to load - even compressed version failed');
+    console.warn('Labubu scene failed to load - Draco compressed version failed');
     return (
       <mesh>
         <boxGeometry args={[1, 2, 1]} />
@@ -119,5 +119,5 @@ export default function LabubuModel3D({ isMobile = false }: { isMobile?: boolean
   );
 }
 
-// Preload the compressed model
-useGLTF.preload('/labubu-ultra-compressed.glb');
+// Preload the Draco compressed model
+useGLTF.preload('/labubu-draco-compressed.glb');
