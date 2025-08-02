@@ -10,56 +10,32 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   
-  try {
-    const { scene } = useGLTF('/baby-milo-compressed.glb');
+  // Always call hooks at the top level - no conditional calls
+  const gltfResult = useGLTF('/baby-milo-compressed.glb');
+  const { scene } = gltfResult || {};
 
-    useEffect(() => {
+  useEffect(() => {
+    try {
       if (scene) {
         console.log('Baby Milo model loaded successfully', scene);
         setIsLoading(false);
       }
-    }, [scene]);
-
-    // Gentle automatic rotation
-    useFrame(() => {
-      if (modelRef.current && !isLoading) {
-        const rotationSpeed = isMobile ? 0.002 : 0.003;
-        modelRef.current.rotation.y += rotationSpeed;
-      }
-    });
-
-    if (isLoading) {
-      console.log('Baby Milo scene loading...');
-      return (
-        <mesh>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color="#F0E68C" opacity={0.7} transparent />
-        </mesh>
-      );
-    }
-
-    if (!scene) {
-      console.log('Baby Milo scene failed to load');
+    } catch (error) {
+      console.error('Error processing Baby Milo model:', error);
       setHasError(true);
-      return (
-        <mesh>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color="red" />
-        </mesh>
-      );
+      setIsLoading(false);
     }
+  }, [scene]);
 
-    return (
-      <primitive 
-        ref={modelRef} 
-        object={scene} 
-        scale={[2, 2, 2]}
-        position={[0, 0, 0]}
-      />
-    );
-  } catch (error) {
-    console.error('Error loading Baby Milo model:', error);
-    setHasError(true);
+  // Gentle automatic rotation
+  useFrame(() => {
+    if (modelRef.current && !isLoading && !hasError) {
+      const rotationSpeed = isMobile ? 0.002 : 0.003;
+      modelRef.current.rotation.y += rotationSpeed;
+    }
+  });
+
+  if (hasError) {
     return (
       <mesh>
         <boxGeometry args={[1, 1, 1]} />
@@ -67,6 +43,35 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
       </mesh>
     );
   }
+
+  if (isLoading) {
+    console.log('Baby Milo scene loading...');
+    return (
+      <mesh>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="#F0E68C" opacity={0.7} transparent />
+      </mesh>
+    );
+  }
+
+  if (!scene) {
+    console.log('Baby Milo scene failed to load');
+    return (
+      <mesh>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
+    );
+  }
+
+  return (
+    <primitive 
+      ref={modelRef} 
+      object={scene} 
+      scale={[2, 2, 2]}
+      position={[0, 0, 0]}
+    />
+  );
 }export default function BabyMiloModel3D({ isMobile = false }: { isMobile?: boolean }) {
   return (
     <div className="w-full aspect-square max-w-[400px] sm:max-w-[450px] md:max-w-[500px] lg:max-w-[550px]">

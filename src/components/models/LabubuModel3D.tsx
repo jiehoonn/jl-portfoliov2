@@ -5,68 +5,36 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import { Group } from 'three';
 
-function RotatingLabubu({ isMobile }: { isMobile?: boolean }) {
+function RotatingLabubu() {
   const modelRef = useRef<Group>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [loadProgress, setLoadProgress] = useState(0);
   
-  try {
-    const { scene } = useGLTF('/labubu-ultra-compressed.glb', true); // Enable loading progress
+  // Always call hooks at the top level - no conditional calls
+  const gltfResult = useGLTF('/labubu-ultra-compressed.glb', true);
+  const { scene } = gltfResult || {};
 
-    useEffect(() => {
+  useEffect(() => {
+    try {
       if (scene) {
         console.log('Labubu model loaded successfully (36MB compressed)', scene);
         setIsLoading(false);
       }
-    }, [scene]);
-
-    // Gentle automatic rotation that works with OrbitControls
-    useFrame(() => {
-      if (modelRef.current && !isLoading) {
-        modelRef.current.rotation.y += 0.001; // Slower for large model
-      }
-    });
-
-    if (isLoading) {
-      console.log('Labubu scene loading... (36MB compressed file)');
-      return (
-        <group>
-          <mesh>
-            <boxGeometry args={[1, 2, 1]} />
-            <meshStandardMaterial color="#E6E6FA" opacity={0.5 + loadProgress * 0.5} transparent />
-          </mesh>
-          {/* Loading indicator */}
-          <mesh position={[0, 3, 0]}>
-            <boxGeometry args={[0.1, 0.1, 0.1]} />
-            <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.5} />
-          </mesh>
-        </group>
-      );
-    }
-
-    if (!scene) {
-      console.warn('Labubu scene failed to load - even compressed version failed');
+    } catch (error) {
+      console.error('Error processing Labubu model (36MB compressed):', error);
       setHasError(true);
-      return (
-        <mesh>
-          <boxGeometry args={[1, 2, 1]} />
-          <meshStandardMaterial color="#FF6B6B" />
-        </mesh>
-      );
+      setIsLoading(false);
     }
+  }, [scene]);
 
-    return (
-      <primitive 
-        ref={modelRef} 
-        object={scene} 
-        scale={[2, 2, 2]}
-        position={[0, 0, 0]}
-      />
-    );
-  } catch (error) {
-    console.error('Error loading Labubu model (36MB compressed):', error);
-    setHasError(true);
+  // Gentle automatic rotation that works with OrbitControls
+  useFrame(() => {
+    if (modelRef.current && !isLoading && !hasError) {
+      modelRef.current.rotation.y += 0.001; // Slower for large model
+    }
+  });
+
+  if (hasError) {
     return (
       <mesh>
         <boxGeometry args={[1, 2, 1]} />
@@ -74,6 +42,42 @@ function RotatingLabubu({ isMobile }: { isMobile?: boolean }) {
       </mesh>
     );
   }
+
+  if (isLoading) {
+    console.log('Labubu scene loading... (36MB compressed file)');
+    return (
+      <group>
+        <mesh>
+          <boxGeometry args={[1, 2, 1]} />
+          <meshStandardMaterial color="#E6E6FA" opacity={0.7} transparent />
+        </mesh>
+        {/* Loading indicator */}
+        <mesh position={[0, 3, 0]}>
+          <boxGeometry args={[0.1, 0.1, 0.1]} />
+          <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.5} />
+        </mesh>
+      </group>
+    );
+  }
+
+  if (!scene) {
+    console.warn('Labubu scene failed to load - even compressed version failed');
+    return (
+      <mesh>
+        <boxGeometry args={[1, 2, 1]} />
+        <meshStandardMaterial color="#FF6B6B" />
+      </mesh>
+    );
+  }
+
+  return (
+    <primitive 
+      ref={modelRef} 
+      object={scene} 
+      scale={[2, 2, 2]}
+      position={[0, 0, 0]}
+    />
+  );
 }
 
 export default function LabubuModel3D({ isMobile = false }: { isMobile?: boolean }) {
@@ -109,7 +113,7 @@ export default function LabubuModel3D({ isMobile = false }: { isMobile?: boolean
           target={[0, 0, 0]}
           enableDamping={!isMobile}
         />
-        <RotatingLabubu isMobile={isMobile} />
+        <RotatingLabubu />
       </Canvas>
     </div>
   );
