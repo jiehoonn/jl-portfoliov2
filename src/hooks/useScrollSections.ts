@@ -82,8 +82,7 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
         updateSection({
           title: "Experience: Professional Journey",
           items: [
-            "Software Development Intern @ Accelerant",
-            "Frontend Engineer @ Jin Marketing",
+            "Freelance Software Engineer @ Jin Marketing",
             "Web Developer @ Arché Journal",
             "Software Engineer Fellow @ BU Spark! Innovation Program"
           ]
@@ -93,10 +92,10 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
         updateSection({
           title: "Projects: Technical Showcase",
           items: [
-            "Stock Trading Platform",
+            "Docuquery",
             "chatsqrd",
-            "Jin Marketing Business Suite",
-            "Spotify Playlist Recommender"
+            "NBA Player Stats Predictor",
+            "Trellis"
           ]
         });
       }
