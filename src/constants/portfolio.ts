@@ -32,6 +32,7 @@ export const SKILLS: Skill[] = [
 ];
 
 export const EXPERIENCE_DETAILS: ExperienceDetails = {
+  "Associate Software Engineer @ Tubi": "Start Date: August, 2026",
   "Freelance Software Engineer @ Jin Marketing": "Delivered scalable web solutions deployed on Vercel while leveraging AWS for data and image optimization to achieve faster load times and enhanced performance. I utilized Next.js and Tailwind CSS to craft consistent, responsive designs that provide user-friendly interfaces. Additionally, I engineered a Django-based admin dashboard tailored for non-tech-savvy business owners, centralizing control of all business websites and integrating Gmail API for real-time email notifications.",
   "Web Developer @ Arché Journal": "Enhanced user experience by designing and implementing responsive React components, including dynamic social media integration and visually distinct publication sections, which improved navigation clarity and increased user engagement by 23%. I successfully migrated deployment from manual FTP uploads to an automated Git-based workflow with AWS hosting optimization, reducing page load time by 35% and simplifying content updates for future development teams.",
   "Software Engineer Fellow @ BU Spark! Innovation Program": "Developed chatsqrd, an innovative adaptive educational app leveraging conversational AI through OpenAI API and speech recognition via ElevenLabs, significantly boosting accessibility and engagement for children struggling with traditional learning methods. I collaborated in Agile teams using Jira and Figma to rapidly iterate on conversational UI prototypes, integrating OpenAI APIs to improve learner outcomes and create more inclusive educational experiences."
@@ -52,8 +53,8 @@ export const PROJECT_GITHUB_LINKS: Record<string, string> = {
 };
 
 export const CONTACT_INFO = {
-  email: 'jiehoonn@bu.com',
-  linkedin: 'https://www.linkedin.com/in/jiehoonlee2002/',
+  email: 'jiehoonlee02@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/jiehoon/',
   github: 'https://github.com/jiehoonn'
 };
 

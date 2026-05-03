@@ -1,23 +1,41 @@
 import { WindowWithLenis } from '@/types/performance';
 
-export const smoothScrollTo = (targetId: string, offset: number = -100): void => {
-  const targetElement = document.getElementById(targetId);
+type LenisInstance = {
+  scrollTo: (target: number | HTMLElement, opts?: object) => void;
+};
 
+const DESKTOP_BREAKPOINT = 1024;
+
+const desktopScrollPositions: Record<string, () => number> = {
+  experience: () => window.innerHeight,
+  projects: () => window.innerHeight * 2,
+};
+
+export const smoothScrollTo = (targetId: string): void => {
+  const lenis = (window as WindowWithLenis).lenis as LenisInstance | undefined;
+  const isDesktop = window.innerWidth >= DESKTOP_BREAKPOINT;
+  const scrollOpts = {
+    duration: 1.2,
+    easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  };
+
+  if (isDesktop && desktopScrollPositions[targetId]) {
+    const position = desktopScrollPositions[targetId]();
+    if (lenis) {
+      lenis.scrollTo(position, scrollOpts);
+    } else {
+      window.scrollTo({ top: position, behavior: 'smooth' });
+    }
+    return;
+  }
+
+  const targetElement = document.getElementById(targetId);
   if (!targetElement) return;
 
-  const lenis = (window as WindowWithLenis).lenis;
-
   if (lenis) {
-    (lenis as { scrollTo: (el: HTMLElement, opts: object) => void }).scrollTo(targetElement, {
-      offset,
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
+    lenis.scrollTo(targetElement, scrollOpts);
   } else {
-    window.scrollTo({
-      top: targetElement.offsetTop + offset,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: targetElement.offsetTop, behavior: 'smooth' });
   }
 };
 
@@ -31,17 +49,3 @@ export const handleNavigationClick = (
   if (onComplete) setTimeout(onComplete, 100);
 };
 
-export const getActiveSectionId = (): string => {
-  const sections = ['hero', 'experience', 'projects', 'contact'];
-  const scrollY = window.scrollY;
-  const windowHeight = window.innerHeight;
-
-  for (let i = sections.length - 1; i >= 0; i--) {
-    const element = document.getElementById(sections[i]);
-    if (element && scrollY >= element.offsetTop - windowHeight / 2) {
-      return sections[i];
-    }
-  }
-
-  return 'hero';
-};

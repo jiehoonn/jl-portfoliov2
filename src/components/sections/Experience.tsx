@@ -17,8 +17,7 @@ export default function Experience() {
   const { isMobile } = useDeviceDetection();
   
   return (
-    <section className="min-h-screen relative flex items-center justify-center px-4 py-8 bg-[#EFF2F9]">
-      {/* 3D Labubu Model - centered */}
+    <section className="min-h-screen lg:min-h-0 lg:h-screen relative flex items-center justify-center px-4 py-8 bg-[#EFF2F9]">
       <div className="flex items-center justify-center w-full max-w-2xl">
         <ErrorBoundary fallback={
           <div className="w-full aspect-square max-w-[400px] flex items-center justify-center bg-gradient-to-br from-pink-50 to-purple-100 rounded-lg border-2 border-dashed border-pink-200">

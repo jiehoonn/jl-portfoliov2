@@ -20,8 +20,7 @@ function ModelSelector() {
 
 export default function Hero() {
   return (
-    <section className="min-h-screen relative flex items-center justify-center px-4 py-8">
-      {/* 3D Lego Model - centered */}
+    <section className="min-h-screen lg:min-h-0 lg:h-screen relative flex items-center justify-center px-4 py-8">
       <div className="flex items-center justify-center w-full max-w-2xl">
         <ErrorBoundary fallback={
           <div className="w-full aspect-square max-w-[400px] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg border-2 border-dashed border-blue-200">
