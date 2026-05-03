@@ -1,17 +1,3 @@
-/**
- * HamburgerMenu Component
- * 
- * A responsive hamburger menu component that provides navigation for the portfolio.
- * Features:
- * - Responsive design with different layouts for mobile and desktop
- * - Smooth animations and transitions
- * - Accessibility support with proper ARIA labels
- * - Integration with Lenis smooth scrolling
- * - Click outside to close functionality
- * 
- * @component
- */
-
 "use client"
 
 import React, { useState, useRef } from 'react';
@@ -40,9 +26,6 @@ const MenuItems: React.FC<MenuItemsProps> = ({ isOpen, onItemClick, direction })
     ? 'flex flex-col items-end gap-3'
     : 'flex flex-row whitespace-nowrap items-center gap-6 pr-5';
 
-  /**
-   * Handles menu item click with smooth scrolling
-   */
   const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     handleNavigationClick(e, href, onItemClick);
   };
@@ -57,7 +40,6 @@ const MenuItems: React.FC<MenuItemsProps> = ({ isOpen, onItemClick, direction })
           className={`px-2 py-1 text-sm text-gray-800 rounded-lg transition-all duration-500 transform cursor-pointer hover:bg-gray-100 ${translateClass}`}
           style={{
             transitionDelay: isOpen ? `${150 + index * 150}ms` : '0ms',
-            fontFamily: 'Montserrat'
           }}
           onClick={(e) => handleItemClick(e, item.href)}
         >
@@ -68,30 +50,19 @@ const MenuItems: React.FC<MenuItemsProps> = ({ isOpen, onItemClick, direction })
   );
 };
 
-/**
- * Main HamburgerMenu component
- * Manages menu state and renders hamburger icon with menu items
- */
 const HamburgerMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  /**
-   * Toggles menu open/closed state
-   */
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  /**
-   * Closes the menu
-   */
   const closeMenu = () => {
     setIsOpen(false);
   };
 
-  // Handle click outside and escape key to close menu
   useClickOutside({
     ref: menuRef,
     callback: closeMenu,

@@ -1,16 +1,3 @@
-/**
- * SkillsInfo Component
- * 
- * Displays a grid of technology skills with icons and proper accessibility.
- * Features:
- * - Responsive grid layout with auto-fit columns
- * - Neumorphic design matching the portfolio theme
- * - Optimized images with proper alt text
- * - Type-safe skill data from constants
- * 
- * @component
- */
-
 'use client';
 
 import React from 'react';

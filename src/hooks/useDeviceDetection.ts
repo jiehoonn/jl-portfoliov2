@@ -53,17 +53,6 @@ export function useDeviceDetection(): DeviceInfo {
         jsHeapSizeLimit: memory.jsHeapSizeLimit,
       } : undefined,
     });
-
-    // Log device info for debugging
-    console.log('Device Info:', {
-      isMobile,
-      isTablet,
-      isDesktop,
-      isLowMemory,
-      userAgent,
-      platform,
-      memory,
-    });
   }, []);
 
   return deviceInfo;

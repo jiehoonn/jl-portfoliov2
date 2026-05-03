@@ -1,7 +1,3 @@
-/**
- * Custom hook for managing window dimensions
- * Provides responsive window width and height with proper cleanup
- */
 import { useState, useEffect } from 'react';
 import { WindowDimensions } from '@/types/portfolio';
 
@@ -12,7 +8,6 @@ export const useWindowDimensions = (): WindowDimensions => {
   });
 
   useEffect(() => {
-    // Function to update window dimensions
     const handleResize = (): void => {
       setWindowDimensions({
         width: window.innerWidth,
@@ -20,13 +15,8 @@ export const useWindowDimensions = (): WindowDimensions => {
       });
     };
 
-    // Set initial dimensions
     handleResize();
-
-    // Add event listener
     window.addEventListener('resize', handleResize);
-
-    // Cleanup event listener on unmount
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 

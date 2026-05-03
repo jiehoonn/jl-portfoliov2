@@ -15,9 +15,6 @@ function LoadingFallback() {
 
 function ModelSelector() {
   const { isMobile, isLowMemory } = useDeviceDetection();
-  
-  // Always try to load the real model first, but with mobile optimizations
-  console.log('Device info:', { isMobile, isLowMemory });
   return <LegoModel3D isMobile={isMobile} isLowMemory={isLowMemory} />;
 }
 

@@ -1,18 +1,11 @@
-/**
- * Portfolio Constants
- * Centralized constants for the portfolio application
- */
-
 import { NavigationItem, Skill, ExperienceDetails, ProjectDetails } from '@/types/portfolio';
 
-// Navigation menu items
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   { href: '#experience', label: 'Experience' },
   { href: '#projects', label: 'Projects' },
   { href: '#contact', label: 'Contact' }
 ];
 
-// Skills data with proper typing
 export const SKILLS: Skill[] = [
   { name: 'React', icon: '/skill-icons/react-icon.png' },
   { name: 'TypeScript', icon: '/skill-icons/typescript-icon.png' },
@@ -38,14 +31,12 @@ export const SKILLS: Skill[] = [
   { name: 'BeautifulSoup', icon: '/skill-icons/beautifulsoup-icon.png' },
 ];
 
-// Experience details
 export const EXPERIENCE_DETAILS: ExperienceDetails = {
   "Freelance Software Engineer @ Jin Marketing": "Delivered scalable web solutions deployed on Vercel while leveraging AWS for data and image optimization to achieve faster load times and enhanced performance. I utilized Next.js and Tailwind CSS to craft consistent, responsive designs that provide user-friendly interfaces. Additionally, I engineered a Django-based admin dashboard tailored for non-tech-savvy business owners, centralizing control of all business websites and integrating Gmail API for real-time email notifications.",
   "Web Developer @ Arché Journal": "Enhanced user experience by designing and implementing responsive React components, including dynamic social media integration and visually distinct publication sections, which improved navigation clarity and increased user engagement by 23%. I successfully migrated deployment from manual FTP uploads to an automated Git-based workflow with AWS hosting optimization, reducing page load time by 35% and simplifying content updates for future development teams.",
   "Software Engineer Fellow @ BU Spark! Innovation Program": "Developed chatsqrd, an innovative adaptive educational app leveraging conversational AI through OpenAI API and speech recognition via ElevenLabs, significantly boosting accessibility and engagement for children struggling with traditional learning methods. I collaborated in Agile teams using Jira and Figma to rapidly iterate on conversational UI prototypes, integrating OpenAI APIs to improve learner outcomes and create more inclusive educational experiences."
 };
 
-// Project details
 export const PROJECT_DETAILS: ProjectDetails = {
   "Docuquery": "Multi-tenant document Q&A platform built as a retrieval-augmented generation (RAG) system: users upload documents (PDF/DOCX/TXT), the backend chunks and embeds them, stores vectors in Qdrant, and answers natural-language queries by retrieving relevant chunks and calling an LLM (with source citations). The project combines a Python/FastAPI backend (SQLAlchemy, Pydantic), a Next.js + TypeScript frontend, and infrastructure patterns for production (Postgres, Redis cache, Qdrant, S3, SQS, Terraform, Docker Compose), and demonstrates end-to-end features such as tenant isolation, API auth, caching, monitoring, and unit tests.",
   "chatsqrd": "Built an adaptive educational app leveraging conversational AI through OpenAI API and speech recognition via ElevenLabs. Implemented a hybrid Firestore database structure that reduced database read operations by ~60% through efficient conversation history management. Engineered modular React frontend components and developed a fallback audio processing pipeline using MediaRecorder API for seamless speech-to-text transcription across various network and browser conditions.",
@@ -53,7 +44,6 @@ export const PROJECT_DETAILS: ProjectDetails = {
   "Trellis": "Trellis is a hackathon‑built, production‑minded AI workflow platform that converts natural‑language intents and CSV data into auditable, human‑approved processes—helping nonprofits cut manual workflow time by ~80%. It couples a modular Python/FastAPI backend (node‑based graph executor and LangGraph multi‑agent orchestration that runs propose→rebut→vote debate rounds) with a Next.js React/TypeScript frontend that consumes Server‑Sent Events to stream live agent reasoning into a DebateViewer and approval flow."
 };
 
-// GitHub repository links
 export const PROJECT_GITHUB_LINKS: Record<string, string> = {
   'Docuquery': 'https://github.com/jiehoonn/docuquery',
   'chatsqrd': 'https://github.com/miloopark/chatchat/tree/dev',
@@ -61,21 +51,18 @@ export const PROJECT_GITHUB_LINKS: Record<string, string> = {
   'Trellis': 'https://github.com/ebrivera/trellis'
 };
 
-// Contact information
 export const CONTACT_INFO = {
   email: 'jiehoonn@bu.com',
   linkedin: 'https://www.linkedin.com/in/jiehoonlee2002/',
   github: 'https://github.com/jiehoonn'
 };
 
-// Animation and scroll constants
 export const SCROLL_THRESHOLDS = {
   HERO_END: 0.8,
   EXPERIENCE_END: 1.8,
   CONTACT_START: 2.8
 };
 
-// 3D Model constants
 export const MODEL_CONFIG = {
   LEGO: {
     scale: [0.2, 0.2, 0.2] as [number, number, number],
@@ -94,14 +81,12 @@ export const MODEL_CONFIG = {
   }
 };
 
-// Breakpoint constants for responsive design
 export const BREAKPOINTS = {
   MOBILE: 401,
   TABLET: 626,
   DESKTOP: 1024
 };
 
-// Animation timing constants
 export const ANIMATION_TIMINGS = {
   MENU_TRANSITION: 500,
   FADE_TRANSITION: 300,

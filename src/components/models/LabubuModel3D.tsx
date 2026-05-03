@@ -18,12 +18,10 @@ function RotatingLabubu() {
   useEffect(() => {
     try {
       if (scene && !contextLost) {
-        console.log('Labubu model loaded successfully (7MB Draco compressed)', scene);
         setIsLoading(false);
         setHasError(false);
       }
-    } catch (error) {
-      console.error('Error processing Labubu model (7MB Draco compressed):', error);
+    } catch {
       setHasError(true);
       setIsLoading(false);
     }
@@ -32,14 +30,12 @@ function RotatingLabubu() {
   // Handle WebGL context lost/restored
   useEffect(() => {
     const handleContextLost = (event: Event) => {
-      console.warn('Labubu: WebGL context lost, preventing default and preparing to recover');
       event.preventDefault();
       setContextLost(true);
       setIsLoading(true);
     };
 
     const handleContextRestored = () => {
-      console.log('Labubu: WebGL context restored, reloading model');
       setContextLost(false);
       setIsLoading(true);
       setHasError(false);
@@ -74,10 +70,6 @@ function RotatingLabubu() {
   }
 
   if (isLoading || contextLost) {
-    const loadingMessage = contextLost 
-      ? 'Labubu: Recovering from WebGL context loss...' 
-      : 'Labubu scene loading... (7MB Draco compressed file)';
-    console.log(loadingMessage);
     return (
       <group>
         <mesh>
@@ -102,7 +94,6 @@ function RotatingLabubu() {
   }
 
   if (!scene) {
-    console.warn('Labubu scene failed to load - Draco compressed version failed');
     return (
       <mesh>
         <boxGeometry args={[1, 2, 1]} />

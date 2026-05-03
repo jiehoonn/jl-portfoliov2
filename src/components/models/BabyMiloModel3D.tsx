@@ -18,12 +18,10 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
   useEffect(() => {
     try {
       if (scene && !contextLost) {
-        console.log('Baby Milo model loaded successfully (3.9MB ultra-compressed)', scene);
         setIsLoading(false);
         setHasError(false);
       }
-    } catch (error) {
-      console.error('Error processing Baby Milo model (3.9MB ultra-compressed):', error);
+    } catch {
       setHasError(true);
       setIsLoading(false);
     }
@@ -32,14 +30,12 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
   // Handle WebGL context lost/restored
   useEffect(() => {
     const handleContextLost = (event: Event) => {
-      console.warn('Baby Milo: WebGL context lost, preventing default and preparing to recover');
       event.preventDefault();
       setContextLost(true);
       setIsLoading(true);
     };
 
     const handleContextRestored = () => {
-      console.log('Baby Milo: WebGL context restored, reloading model');
       setContextLost(false);
       setIsLoading(true);
       setHasError(false);
@@ -75,10 +71,6 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
   }
 
   if (isLoading || contextLost) {
-    const loadingMessage = contextLost 
-      ? 'Baby Milo: Recovering from WebGL context loss...' 
-      : 'Baby Milo scene loading... (3.9MB ultra-compressed)';
-    console.log(loadingMessage);
     return (
       <mesh>
         <boxGeometry args={[1, 1, 1]} />
@@ -92,7 +84,6 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
   }
 
   if (!scene) {
-    console.log('Baby Milo scene failed to load');
     return (
       <mesh>
         <boxGeometry args={[1, 1, 1]} />
@@ -109,7 +100,9 @@ function RotatingBabyMilo({ isMobile }: { isMobile?: boolean }) {
       position={[0, 0, 0]}
     />
   );
-}export default function BabyMiloModel3D({ isMobile = false }: { isMobile?: boolean }) {
+}
+
+export default function BabyMiloModel3D({ isMobile = false }: { isMobile?: boolean }) {
   return (
     <div className="w-full aspect-square max-w-[400px] sm:max-w-[450px] md:max-w-[500px] lg:max-w-[550px]">
       <Canvas

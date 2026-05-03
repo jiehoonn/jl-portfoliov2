@@ -1,7 +1,3 @@
-/**
- * Custom hook for managing click outside behavior
- * Handles closing modals, dropdowns, and other overlay components
- */
 import { useEffect, RefObject } from 'react';
 
 interface UseClickOutsideProps {

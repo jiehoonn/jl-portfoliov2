@@ -1,8 +1,3 @@
-/**
- * Portfolio Type Definitions
- * Centralized type definitions for the entire portfolio application
- */
-
 // Navigation types
 export interface NavigationItem {
   href: string;
@@ -36,13 +31,6 @@ export interface ProjectDetails {
   [key: string]: string;
 }
 
-// 3D Model types
-export interface ModelProps {
-  scale?: [number, number, number];
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-}
-
 // Animation types
 export interface ScrollPosition {
   current: number;
@@ -66,24 +54,3 @@ export interface WindowDimensions {
   height: number;
 }
 
-// Theme types
-export interface ThemeColors {
-  background: string;
-  foreground: string;
-  hamburgerColor: string;
-  textMuted: string;
-}
-
-// API response types (for future use)
-export interface ApiResponse<T> {
-  data: T;
-  status: number;
-  message?: string;
-}
-
-// Error types
-export interface AppError {
-  message: string;
-  code?: string;
-  stack?: string;
-}

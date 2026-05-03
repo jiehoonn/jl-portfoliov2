@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { hasMemory } from '@/types/performance';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -25,20 +24,6 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
-    // Log to console for debugging
-    console.log('Error details:', {
-      message: error.message,
-      stack: error.stack,
-      componentStack: errorInfo.componentStack,
-      userAgent: navigator.userAgent,
-      platform: navigator.platform,
-      memory: hasMemory(performance) ? {
-        usedJSHeapSize: performance.memory.usedJSHeapSize,
-        totalJSHeapSize: performance.memory.totalJSHeapSize,
-        jsHeapSizeLimit: performance.memory.jsHeapSizeLimit,
-      } : 'Memory info not available'
-    });
   }
 
   render() {

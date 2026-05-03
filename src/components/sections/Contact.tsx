@@ -1,17 +1,3 @@
-/**
- * Contact Component
- * 
- * Displays contact information and social media links.
- * Features:
- * - Centered neumorphic design
- * - Social media icons with hover effects
- * - Proper accessibility with ARIA labels
- * - Responsive grid layout
- * - External link handling
- * 
- * @component
- */
-
 'use client';
 
 import React from 'react';
@@ -78,19 +64,15 @@ export default function Contact() {
       aria-labelledby="contact-title"
     >
       <div className="max-w-7xl mx-auto w-full">
-        {/* Section Title */}
-        <h2 
+        <h2
           id="contact-title"
           className="text-[#6E7F8D] text-[48px] lg:text-[64px] font-normal leading-normal tracking-[-2.4px] lg:tracking-[-3.2px] text-center mb-12 lg:mb-16 text-neumorphism"
-          style={{ fontFamily: 'Montserrat' }}
         >
           Let&apos;s Connect
         </h2>
         
-        {/* Centered Container with Neumorphic Styling */}
         <div className="flex justify-center">
           <div className="flex flex-col items-center gap-8 p-8 lg:p-12 rounded-[58px] bg-[#EFF2F9] neumorphism max-w-2xl w-full">
-            {/* Contact Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 w-full max-w-lg">
               {contactLinks.map((contact: ContactLink) => (
                 <a
@@ -106,10 +88,8 @@ export default function Contact() {
               ))}
             </div>
             
-            {/* Contact Message */}
-            <p 
+            <p
               className="text-[#6E7F8D] text-[18px] lg:text-[20px] font-normal leading-normal tracking-[-0.9px] lg:tracking-[-1px] text-center max-w-md"
-              style={{ fontFamily: 'Montserrat' }}
             >
               Feel free to reach out for opportunities, collaborations, or just to say hello!
             </p>

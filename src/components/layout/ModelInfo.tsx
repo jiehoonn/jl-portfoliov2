@@ -1,18 +1,3 @@
-/**
- * ModelInfo Component
- * 
- * A dynamic information panel that updates based on scroll position and user interactions.
- * Features:
- * - Scroll-based section updates (Hero, Experience, Projects)
- * - Interactive experience and project details on hover/click
- * - Skills popup for the model section
- * - Smooth transitions and animations
- * - External GitHub repository links
- * - Responsive design with mobile/desktop considerations
- * 
- * @component
- */
-
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -22,40 +7,27 @@ import { useClickOutside } from '@/hooks/useClickOutside';
 import { EXPERIENCE_DETAILS, PROJECT_DETAILS, PROJECT_GITHUB_LINKS } from '@/constants/portfolio';
 
 export default function ModelInfo() {
-  // Scroll-based section management
   const { currentSection, isContactVisible, isTransitioning } = useScrollSections();
 
-  // State for interactive elements
   const [activeExperience, setActiveExperience] = useState<string | null>(null);
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [isSkillsVisible, setIsSkillsVisible] = useState(false);
 
-  // Refs for click outside handling
   const experienceRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
 
-  /**
-   * Toggles experience details display
-   */
   const toggleExperienceDetails = (experience: string) => {
     setActiveExperience(activeExperience === experience ? null : experience);
   };
 
-  /**
-   * Toggles project details display
-   */
   const toggleProjectDetails = (project: string) => {
     setActiveProject(activeProject === project ? null : project);
   };
 
-  /**
-   * Toggles skills popup display
-   */
   const toggleSkills = () => {
     setIsSkillsVisible(!isSkillsVisible);
   };
 
-  // Handle click outside to close details
   useClickOutside({
     ref: experienceRef,
     callback: () => {
@@ -73,7 +45,6 @@ export default function ModelInfo() {
 
   return (
     <React.Fragment>
-      {/* Blue to transparent gradient overlay - spans full viewport */}
       <div className="fixed bottom-0 left-0 w-full h-32 lg:h-40 pointer-events-none z-40 bg-gradient-to-t from-[#EFF2F9] via-[#EFF2F9]/80 to-transparent"></div>
       
       <div 
@@ -84,8 +55,7 @@ export default function ModelInfo() {
         }`} 
         ref={experienceRef}
       >
-        {/* Content with conditional rendering and additional animation */}
-        <div 
+        <div
           className={`transition-all duration-300 ease-in-out ${
             isContactVisible 
               ? 'opacity-0 translate-y-2 scale-95' 
@@ -93,9 +63,7 @@ export default function ModelInfo() {
           }`}
         >
           <div className="flex flex-col gap-1 items-start text-left">
-            {/* Title with Skills Arrow */}
             <div className="relative group" ref={skillsRef}>
-              {/* Skills popup - only show for Model section */}
               {currentSection.title.includes('Model') && (
                 <div className={`absolute bottom-full left-0 mb-4 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto ${
                   isSkillsVisible 
@@ -109,16 +77,14 @@ export default function ModelInfo() {
             )}
             
             <div className="flex items-center gap-2">
-              <h2 
+              <h2
                 className={`text-[#6E7F8D] text-xs sm:text-sm md:text-base leading-tight tracking-tight text-left transition-all duration-300 ease-in-out ${
                   isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
                 }`}
-                style={{ fontFamily: 'Montserrat' }}
               >
                 {currentSection.title}
               </h2>
               
-              {/* Arrow icon - only show for Model section */}
               {currentSection.title.includes('Model') && (
                 <button
                   className={`text-[#6E7F8D] text-[10px] sm:text-xs cursor-pointer select-none hover:text-[#171717] transition-all duration-300 ${
@@ -132,9 +98,8 @@ export default function ModelInfo() {
               )}
             </div>
           </div>
-        
-        {/* Dynamic content items */}
-        <div className={`flex gap-1 items-start transition-all duration-300 ease-in-out ${
+
+          <div className={`flex gap-1 items-start transition-all duration-300 ease-in-out ${
           isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
         } ${
           currentSection.title.includes('Experience') || currentSection.title.includes('Projects')
@@ -154,17 +119,12 @@ export default function ModelInfo() {
               }}
             >
               <div className="flex items-center gap-2">
-                <span 
-                  className="text-[#6E7F8D] text-[10px] sm:text-xs md:text-sm font-normal leading-tight tracking-tight text-left"
-                  style={{ fontFamily: 'Montserrat' }}
-                >
-                  <span className="font-semibold">{item}</span>
+                <span className="text-[#6E7F8D] text-[10px] sm:text-xs md:text-sm font-semibold leading-tight tracking-tight text-left">
+                  {item}
                 </span>
                 
-                {/* External link icons - show for experience and project items */}
                 {(currentSection.title.includes('Experience') || currentSection.title.includes('Projects')) && (
                   <div className="flex items-center gap-1">
-                    {/* GitHub icon - only show for projects with public repos */}
                     {currentSection.title.includes('Projects') && PROJECT_GITHUB_LINKS[item] && (
                       <a 
                         href={PROJECT_GITHUB_LINKS[item]}
@@ -200,44 +160,40 @@ export default function ModelInfo() {
                 )}
               </div>
 
-              {/* Experience details box - click */}
               {currentSection.title.includes('Experience') && (activeExperience === item) && (
                 <div className="absolute bottom-full left-0 mb-2 opacity-100 pointer-events-auto z-10">
                   <div className="bg-[#EFF2F9] neumorphism rounded-[15px] p-4 w-[280px] sm:w-[320px] md:w-[360px]">
-                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed" style={{ fontFamily: 'Montserrat' }}>
+                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed">
                       {EXPERIENCE_DETAILS[item]}
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* Project details box - click */}
               {currentSection.title.includes('Projects') && (activeProject === item) && (
                 <div className="absolute bottom-full left-0 mb-2 opacity-100 pointer-events-auto z-10">
                   <div className="bg-[#EFF2F9] neumorphism rounded-[15px] p-4 w-[280px] sm:w-[320px] md:w-[360px]">
-                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed" style={{ fontFamily: 'Montserrat' }}>
+                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed">
                       {PROJECT_DETAILS[item]}
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* Hover experience details box */}
               {currentSection.title.includes('Experience') && (
                 <div className="absolute bottom-full left-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto z-10">
                   <div className="bg-[#EFF2F9] neumorphism rounded-[15px] p-4 w-[280px] sm:w-[320px] md:w-[360px]">
-                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed" style={{ fontFamily: 'Montserrat' }}>
+                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed">
                       {EXPERIENCE_DETAILS[item]}
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* Hover project details box */}
               {currentSection.title.includes('Projects') && (
                 <div className="absolute bottom-full left-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto z-10">
                   <div className="bg-[#EFF2F9] neumorphism rounded-[15px] p-4 w-[280px] sm:w-[320px] md:w-[360px]">
-                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed" style={{ fontFamily: 'Montserrat' }}>
+                    <p className="text-[#171717] text-[10px] sm:text-xs md:text-sm leading-relaxed">
                       {PROJECT_DETAILS[item]}
                     </p>
                   </div>
@@ -245,7 +201,7 @@ export default function ModelInfo() {
               )}
             </div>
           ))}
-        </div>
+          </div>
         </div>
         </div>
       </div>

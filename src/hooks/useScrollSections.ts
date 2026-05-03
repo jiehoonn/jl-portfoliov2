@@ -1,7 +1,3 @@
-/**
- * Custom hook for managing scroll-based section visibility
- * Handles smooth scrolling between sections and updates active section state
- */
 import { useState, useEffect, useCallback } from 'react';
 import { SectionContent, ScrollPosition } from '@/types/portfolio';
 import { SCROLL_THRESHOLDS } from '@/constants/portfolio';
@@ -31,7 +27,6 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
     direction: 'down'
   });
 
-  // Helper function to handle smooth section transitions
   const updateSection = useCallback((newSection: SectionContent) => {
     if (newSection.title !== currentSection.title) {
       setIsTransitioning(true);
@@ -51,14 +46,12 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       
-      // Update scroll position state
       setScrollPosition(prev => ({
         current: scrollY,
         previous: prev.current,
         direction: scrollY > prev.current ? 'down' : 'up'
       }));
-      
-      // Check if Contact section is visible
+
       if (scrollY >= windowHeight * SCROLL_THRESHOLDS.CONTACT_START) {
         setIsContactVisible(true);
         return;
@@ -66,9 +59,7 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
         setIsContactVisible(false);
       }
       
-      // Define section thresholds and update active section
       if (scrollY < windowHeight * SCROLL_THRESHOLDS.HERO_END) {
-        // Hero section
         updateSection({
           title: "Model: Jiehoon Lee",
           items: [
@@ -78,7 +69,6 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
           ]
         });
       } else if (scrollY >= windowHeight * SCROLL_THRESHOLDS.HERO_END && scrollY < windowHeight * SCROLL_THRESHOLDS.EXPERIENCE_END) {
-        // Experience section
         updateSection({
           title: "Experience: Professional Journey",
           items: [
@@ -88,7 +78,6 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
           ]
         });
       } else if (scrollY >= windowHeight * SCROLL_THRESHOLDS.EXPERIENCE_END) {
-        // Projects section
         updateSection({
           title: "Projects: Technical Showcase",
           items: [
