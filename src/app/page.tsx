@@ -11,6 +11,9 @@ import { WindowWithLenis } from "@/types/performance";
 
 export default function Home() {
   const slidesRef = useRef<HTMLDivElement>(null);
+  const isSnappingRef = useRef(false);
+  const targetSlideRef = useRef(0);
+  const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -28,13 +31,66 @@ export default function Home() {
 
     (window as WindowWithLenis).lenis = lenis;
 
+    // Sync target slide on load in case of browser scroll restoration
+    targetSlideRef.current = Math.round(
+      Math.min(3, window.scrollY / window.innerHeight)
+    );
+
     lenis.on("scroll", ({ scroll }: { scroll: number }) => {
       if (window.innerWidth < 1024 || !slidesRef.current) return;
       const progress = Math.max(0, Math.min(2, scroll / window.innerHeight));
       slidesRef.current.style.transform = `translateX(-${progress * window.innerWidth}px)`;
+
+      // Keep target slide in sync after navbar jumps
+      if (!isSnappingRef.current) {
+        targetSlideRef.current = Math.round(
+          Math.min(3, scroll / window.innerHeight)
+        );
+      }
     });
 
+    const snapTo = (slideIndex: number) => {
+      if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+      isSnappingRef.current = true;
+      targetSlideRef.current = slideIndex;
+      lenis.scrollTo(slideIndex * window.innerHeight, {
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        onComplete: () => {
+          isSnappingRef.current = false;
+        },
+      });
+      // Safety reset in case onComplete never fires (e.g. interrupted by navbar)
+      snapTimeoutRef.current = setTimeout(() => {
+        isSnappingRef.current = false;
+      }, 1500);
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      if (window.innerWidth < 1024) return;
+      if (window.scrollY >= window.innerHeight * 3) return;
+
+      // Capture phase + stopImmediatePropagation ensures Lenis never sees
+      // this event — we drive scroll exclusively via lenis.scrollTo()
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      if (isSnappingRef.current) return;
+      if (e.deltaY === 0) return;
+
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const nextSlide = Math.max(0, Math.min(3, targetSlideRef.current + direction));
+
+      if (nextSlide === targetSlideRef.current) return;
+
+      snapTo(nextSlide);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false, capture: true });
+
     return () => {
+      if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+      window.removeEventListener("wheel", handleWheel, { capture: true });
       lenis.destroy();
       delete (window as WindowWithLenis).lenis;
     };
@@ -42,7 +98,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* Horizontal scroll zone — 300vh on desktop, auto height on mobile */}
       <div className="lg:relative lg:h-[300vh]">
         <div className="lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden">
           <div
@@ -63,7 +118,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Contact — normal vertical section */}
       <div id="contact">
         <Contact />
       </div>

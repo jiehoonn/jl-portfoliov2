@@ -33,3 +33,47 @@ body {
 .text-neumorphism {
   text-shadow: -5px -5px 10px rgba(174, 174, 192, 0.40), 5px 5px 10px #FFF;
 }
+
+/* Contact card: flat by default, raised neumorphism on hover */
+.contact-card {
+  box-shadow: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+  box-shadow: -8px -8px 16px 0 rgba(174, 174, 192, 0.55), 8px 8px 16px 0 #FFF;
+}
+
+/* Shared detail box in ModelInfo */
+.info-detail-box {
+  box-shadow: none;
+  transition: box-shadow 0.5s ease;
+}
+
+.info-detail-box--visible {
+  box-shadow: -5px -5px 10px 0 rgba(174, 174, 192, 0.40), 5px 5px 10px 0 #FFF;
+}
+
+.info-detail-text {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.info-detail-text--visible {
+  opacity: 1;
+}
+
+@keyframes bounceRight {
+  0%, 100% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateX(4px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-right {
+  animation: bounceRight 1s infinite;
+}

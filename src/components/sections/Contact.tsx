@@ -80,7 +80,7 @@ export default function Contact() {
                   href={contact.url}
                   target={contact.name === 'Gmail' ? '_self' : '_blank'}
                   rel={contact.name === 'Gmail' ? undefined : 'noopener noreferrer'}
-                  className="flex items-center justify-center aspect-square p-6 rounded-[25px] bg-[#EFF2F9] neumorphism transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#6E7F8D] focus:ring-opacity-50"
+                  className="flex items-center justify-center aspect-square p-6 rounded-[25px] bg-[#EFF2F9] contact-card focus:outline-none focus:ring-2 focus:ring-[#6E7F8D] focus:ring-opacity-50"
                   aria-label={`Contact via ${contact.name}`}
                 >
                   {contact.icon}

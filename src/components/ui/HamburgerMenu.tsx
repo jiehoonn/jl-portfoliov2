@@ -106,8 +106,8 @@ const HamburgerMenu: React.FC = () => {
         </div>
 
         {/* Larger screens - original hamburger design */}
-        <div className="hidden sm:block">
-          <div className={`flex flex-col pt-1 justify-between w-[20px] h-[20px] transform transition-all duration-200 origin-center overflow-hidden ${isOpen ? 'rotate-90' : ''}`}>
+        <div className={`hidden sm:block${isOpen ? ' animate-bounce-right' : ''}`}>
+          <div className={`flex flex-col justify-between w-[20px] h-[18px] transform transition-all duration-200 origin-center overflow-hidden ${isOpen ? 'rotate-90' : ''}`}>
             <div 
               className={`h-[2px] w-6 transform transition-all duration-400 delay-75 ${isOpen ? 'w-0 opacity-0' : ''}`}
               style={{ backgroundColor: 'var(--hamburger-color)' }}
@@ -149,7 +149,7 @@ const HamburgerMenu: React.FC = () => {
         className={`hidden sm:block absolute top-1/2 z-50 transition-all duration-500 ease-out overflow-hidden ${
           isOpen ? 'right-8 opacity-100 w-auto' : 'right-0 opacity-0 w-0'
         }`}
-        style={{ transform: 'translateY(-50%) translateY(8px)' }}
+        style={{ transform: 'translateY(-50%) translateY(9px)' }}
         role="navigation"
         aria-label="Desktop navigation menu"
       >

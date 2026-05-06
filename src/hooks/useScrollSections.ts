@@ -57,7 +57,7 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
           title: "Experience: Professional Journey",
           items: [
             "Associate Software Engineer @ Tubi",
-            "Freelance Software Engineer @ Jin Marketing",
+            "Freelance Software Engineer @ Harvard Street Group",
             "Web Developer @ Arché Journal",
             "Software Engineer Fellow @ BU Spark! Innovation Program"
           ]
@@ -66,10 +66,10 @@ export const useScrollSections = (): UseScrollSectionsReturn => {
         updateSection({
           title: "Projects: Technical Showcase",
           items: [
-            "Docuquery",
+            "docuquery",
             "chatsqrd",
             "NBA Player Stats Predictor",
-            "Trellis"
+            "foundry"
           ]
         });
       }

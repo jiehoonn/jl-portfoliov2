@@ -5,13 +5,18 @@ import Image from 'next/image';
 import { SKILLS } from '@/constants/portfolio';
 import { Skill } from '@/types/portfolio';
 
-export default function SkillsInfo() {
+interface SkillsInfoProps {
+  visibleCount: number;
+}
+
+export default function SkillsInfo({ visibleCount }: SkillsInfoProps) {
   return (
     <div className="grid gap-2 lg:gap-3 self-stretch grid-cols-[repeat(auto-fit,minmax(50px,1fr))]">
-      {SKILLS.map((skill: Skill) => (
+      {SKILLS.map((skill: Skill, index: number) => (
         <div
           key={skill.name}
-          className="flex items-center justify-center aspect-square p-1.5 rounded-[15px] bg-[#EFF2F9] neumorphism"
+          className="flex items-center justify-center aspect-square p-1.5 rounded-[15px] bg-[#EFF2F9] neumorphism transition-opacity duration-500"
+          style={{ opacity: index < visibleCount ? 1 : 0 }}
           role="img"
           aria-label={`${skill.name} technology skill`}
         >
